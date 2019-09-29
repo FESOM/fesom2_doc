@@ -43,6 +43,9 @@ Proposed structure:
             MESSY
             Hierarchical partitioning
     FAQ
+    Data pre/post processing
+        Initial conditions
+        Convert grid to netCDF that CDO understands
     Discretizations and Algorithms
     Example experiments
     History
