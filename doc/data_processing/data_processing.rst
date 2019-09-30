@@ -23,7 +23,7 @@ The file that would be read potentially without problems can be created with the
 
     fw = Dataset('woa18_netcdf.nc', 'w', )
 
-    fw.createDimension('time', 366)
+    fw.createDimension('time', 1)
     fw.createDimension('lat', lat.shape[0])
     fw.createDimension('lon', lon_reshaped.shape[0])
     fw.createDimension('depth', depth.shape[0])
