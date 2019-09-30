@@ -122,7 +122,7 @@ Running the model
 
 Change to the ``work`` directory. You should find several batch scripts that are used to submit model jobs to HPC machines. The scripts also link ``fesom.x`` executable to the ``work`` directory and copy namelists with configurations from config folder. **NOTE, model executable, configuration namelists and job script have to be located in the same directory (usually work)**.  If you are working on AWI's ``ollie`` supercomputer, you have to use ``job_ollie``, in other case use the job script for your specific HPC platform, or try to modify one of the existing ones.
 
-On ``ollie` the submission of your job is done by executing the following command:
+On ``ollie`` the submission of your job is done by executing the following command:
 
 ::
 
@@ -170,11 +170,46 @@ Since 1948 is a leap year (366 days), this is an exceptional case and the fesom.
 
 Note that dependent on the forcing data set (using a different calendar), a year could only have 360 days.
 
+Tricking FESOM2 into accepting existing restart files
+-----------------------------------------------------
+The simple time management of FESOM2 allows to easily trick FESOM2 to accept existing restart files. Let's assume that you have performed a full ``CORE2`` cycle until the year 2009 and you want to perform a second cycle, restarting from the last year of the first cycle. This can be done by (copying and) renaming the last year into:
+
+::
+
+    mv fesom.2009.ice.nc fesom.1947.ice.nc
+    mv fesom.2009.oce.nc fesom.1947.oce.nc
+
+By changing the clock file into:
+
+::
+
+    84600.0 364 1947
+    0.0     1   1948
+
 
 Build partitioner executable
 ----------------------------
 
-In the beggining the meshes will come with
+First meshes you will use probably will come with several predefined partitionings (``dist_XXXX`` folder). However at some point you might need to create partitioning yourself. To do so you have to first compile the partitioner. First you change to the ``mesh_part``:
+
+::
+
+    cd mesh_part
+
+if you on one of the supported systems, you shoule be able to execute:
+
+::
+
+    bash -l ./configure.sh
+
+or in case of the Ubuntu or other customly defined system:
+
+::
+
+    bash -l ./configure.sh ubuntu
+
+The ``cmake`` should build the partitioner for you. If your system is not supported yet, have a look on how to add custom system in `Adding new platform for compilation`_. The executable ``fesom_ini.x`` should now be available in ``bin`` directory. Now you can proceed with `Running mesh partitioner`_.
+
 
 Running mesh partitioner
 ------------------------
@@ -207,6 +242,41 @@ If you trying to partition large mesh, then on ``ollie`` for example the submiss
     sbatch job_ini_ollie
 
 
+Model spinup / Cold start at higher resolutions
+-----------------------------------------------
+Cold starting the model at high mesh resolutions with standard values for timestep and viscosity will lead to instabilities that cause the model to crash. If no restart files are available and a spinup has to be performed, the following changes should be made for the first month long simulation and then taken back gradually over the next 6-8 months:
+
+In config.namelist reduce the timestep, for example to:
+
+::
+
+    step_per_day=720
+
+or even lower (e.g. value 1440 will lead to 1 minute timestep).
+
+In namelist.oce increase viscosity to something like:
+
+::
+
+    Div_c=5
+    Leith_c=.5
+
+After running for the month change one of the parameters to more standard values. Don't forget to change run lenght and restart output to one month in ``namelist.configure``:
+
+::
+
+    run_length= 1
+    run_length_unit='m'
+    ...
+    restart_length=1
+    restart_length_unit='m'
+
+Increase the timestep gradually. Very highly resolved meshes may require an inital timestep of one-two minutes or even less.
+
+Adding new platform for compilation
+-----------------------------------
+
+
 Ubuntu based Docker container (to get first impression of the model)
 ====================================================================
 
@@ -214,8 +284,23 @@ Ubuntu based Docker container (to get first impression of the model)
 Troubleshooting
 ===============
 
-Adding new platform for compilation
------------------------------------
+Error ``can not determine environment for host:``
+-------------------------------------------------
+
+If you on Ubuntu system, add ``ubuntu`` as input parameter for ``configure.sh``:
+
+::
+
+    ./configure.sh ubuntu
+
+Otherwise you have to add another system - have a look at `Adding new platform for compilation`_ section.
+
+Model blows up
+--------------
+
+There could many reasons for this, but forts thing to try is to reduce time step or/and increase model visousity for short period of time. Have a look at `Model spinup / Cold start at higher resolutions`_ for instructions.
+
+
 
 
 

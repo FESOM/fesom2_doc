@@ -19,35 +19,38 @@ Proposed structure:
     Looking at the results
         Notebooks that comes with the model
         pyfesom2 (short description with link to documentation)
-    Fine tuning
-        General configuration (namelist.configure)
-            Time stepping
-            Restarts
-            ALE options
-            Mesh geometry and partitioning
-        Ocean configuration (namelist.oce)
-            Ocean dynamics
-            Ocean tracers
-            Adding a new tracer
-            Initial conditions
-        Sea ice configuration (namelist.ice)
-            Ice dynamics
-            Ice thermodynamics
-        Atmospheric forcing (namelist.forcing)
-        Output (namelist.io)
-            Adding new output variable
-        Meshes
-            Mesh format
-            Mesh generation?
-        Partitioning
-            MESSY
-            Hierarchical partitioning
-    FAQ
+    Tutorials
+        Build model on Ubuntu (Video)
+        Add new output variable (Video)
+        First look at model output (Video)
+    General configuration (namelist.configure)
+        Time stepping
+        Restarts
+        ALE options
+        Mesh geometry and partitioning
+    Ocean configuration (namelist.oce)
+        Ocean dynamics
+        Ocean tracers
+        Adding a new tracer
+        Initial conditions
+    Sea ice configuration (namelist.ice)
+        Ice dynamics
+        Ice thermodynamics
+    Atmospheric forcing (namelist.forcing)
+    Output (namelist.io)
+        Adding new output variable
+    Meshes
+        Mesh format
+        Mesh generation?
+    Partitioning
+        MESSY
+        Hierarchical partitioning
     Data pre/post processing
         Initial conditions
         Convert grid to netCDF that CDO understands
     Discretizations and Algorithms
     Example experiments
+    FAQ
     History
 
 .. toctree::
@@ -55,6 +58,9 @@ Proposed structure:
    :caption: Contents:
 
    getting_started/getting_started
+   ocean_configuration/ocean_configuration
+   meshes/meshes
+   data_processing/data_processing
 
 
 
