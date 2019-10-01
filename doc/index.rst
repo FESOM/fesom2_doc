@@ -58,6 +58,7 @@ Proposed structure:
    :caption: Contents:
 
    getting_started/getting_started
+   general_configuration/general_configuration
    ocean_configuration/ocean_configuration
    meshes/meshes
    data_processing/data_processing
