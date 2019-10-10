@@ -49,6 +49,9 @@ Proposed structure:
         Initial conditions
         Convert grid to netCDF that CDO understands
     Discretizations and Algorithms
+    Coupling interfaces
+        To atmosphere
+        To ocean biogeochemistry?
     Example experiments
     FAQ
     History
