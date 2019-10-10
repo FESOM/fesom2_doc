@@ -54,7 +54,7 @@ Section &geometry
 -**cartesian     =.false.** use flat cartesian coordinates (idealized geometry)
 -**fplane        =.false.** use fplane approximation, coriolis force is lat independent coriolis=2*omega*0.71
 -**rotated_grid  =.true.** should model perform on rotated grid 
--**force_rotation=.false., if input mesh is unrotated must it must be rotated in FESOM2.0 than ``.true.``, if input mesh is already rotated ``.false.``
+-**force_rotation=.false.**, if input mesh is unrotated must it must be rotated in FESOM2.0 than ``.true.``, if input mesh is already rotated ``.false.``
 -**alphaEuler    =50.0**, rotated Euler angles, alpha [degree]
 -**betaEuler     =15.0**, rotated Euler angles, beta [degree]
 -**gammaEuler    =-90.0**, rotated Euler angles, gamma [degree]
@@ -72,8 +72,6 @@ Section &run_config
 - **use_ice     =.true.** simulate ocean + sea ice
 - **use_floatice=.false.** allow floating sea ice only possible with ``zlevel`` or ``zstar``
 - **use_sw_pene =.true.** use parameterisation for short wave penetration. Incoming short wave radiation is distributed over several layers
-
-
 
 
 Section &machine
