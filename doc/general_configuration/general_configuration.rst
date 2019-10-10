@@ -51,19 +51,20 @@ Section &ale_def
 Section &geometry
 =================
 
--**cartesian     =.false.** use flat cartesian coordinates (idealized geometry)
--**fplane        =.false.** use fplane approximation, coriolis force is lat independent coriolis=2*omega*0.71
--**rotated_grid  =.true.** should model perform on rotated grid 
--**force_rotation=.false.**, if input mesh is unrotated must it must be rotated in FESOM2.0 than ``.true.``, if input mesh is already rotated ``.false.``
--**alphaEuler    =50.0**, rotated Euler angles, alpha [degree]
--**betaEuler     =15.0**, rotated Euler angles, beta [degree]
--**gammaEuler    =-90.0**, rotated Euler angles, gamma [degree]
+- **cartesian     =.false.** use flat cartesian coordinates (idealized geometry)
+- **fplane        =.false.** use fplane approximation, coriolis force is lat independent coriolis=2*omega*0.71
+- **rotated_grid  =.true.** should model perform on rotated grid 
+- **force_rotation=.false.**, if input mesh is unrotated must it must be rotated in FESOM2.0 than ``.true.``, if input mesh is already rotated ``.false.``
+
+- **alphaEuler    =50.0**, rotated Euler angles, alpha [degree]
+- **betaEuler     =15.0**, rotated Euler angles, beta [degree]
+- **gammaEuler    =-90.0**, rotated Euler angles, gamma [degree]
 
 
 Section &calendar
 =================
 
--**include_fleapyear=.false.**, should be ``.true.`` when the forcing contains fleapyears (i.e. NCEP...)
+- **include_fleapyear=.false.**, should be ``.true.`` when the forcing contains fleapyears (i.e. NCEP...)
 
 
 Section &run_config
@@ -77,8 +78,8 @@ Section &run_config
 Section &machine
 ================
 
--n_levels = 2 number of hierarchy level for mesh partitioning
--n_part   = 12, 36 number of partitions on each hierarchy level, the last number should optimal corresponds with the number of CPUs per computational node
+- **n_levels = 2** number of hierarchy level for mesh partitioning
+- **n_part   = 12, 36** number of partitions on each hierarchy level, the last number should optimal corresponds with the number of CPUs per computational node
 
 
 
