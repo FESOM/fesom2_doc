@@ -62,6 +62,9 @@ Proposed structure:
    ocean_configuration/ocean_configuration
    meshes/meshes
    data_processing/data_processing
+   testing
+   geometry
+   zreferences
 
 
 
