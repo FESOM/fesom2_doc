@@ -67,6 +67,7 @@ Proposed structure:
    data_processing/data_processing
    testing
    geometry
+   main_equations
    zreferences
 
 
