@@ -3,14 +3,17 @@
 Ocean configuration (namelist.oce)
 **********************************
 
+Sections of the namelist
+========================
+
 Ocean dynamics &oce_dyn
-=======================
+"""""""""""""""""""""""
 
 Ocean tracers &oce_tra
-======================
+""""""""""""""""""""""
 
 Initial conditions &oce_init3d
-==============================
+""""""""""""""""""""""""""""""
 
 Initial conditions are loaded from netCDF file (or files) that contain values on regular grid. On the format o netCDF files see :ref:`chap_data_processing`.
 

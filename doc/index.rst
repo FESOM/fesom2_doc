@@ -25,6 +25,8 @@ Authors
    testing
    geometry
    main_equations
+   vertical_discretization
+   temporal_discretization
    zreferences
 
 Proposed structure:
