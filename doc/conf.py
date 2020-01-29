@@ -56,5 +56,62 @@ html_static_path = ['_static']
 
 html_logo = 'fesom_logo.png'
 
+project = u'FESOM2'
+copyright = u'2014-, FESOM2 contributors'
+
+author = u'Sergey Danilov, Dmitry Sidorenko, Patrick Scholz, Qiang Wang and Nikolay Koldunov'
+
+# -- Options for HTMLHelp output ------------------------------------------
+
+# Output file base name for HTML help builder.
+htmlhelp_basename = 'FESOM2doc'
+
+
+# -- Options for LaTeX output ---------------------------------------------
+
+latex_elements = {
+    # The paper size ('letterpaper' or 'a4paper').
+    #
+    # 'papersize': 'letterpaper',
+
+    # The font size ('10pt', '11pt' or '12pt').
+    #
+    # 'pointsize': '10pt',
+
+    # Additional stuff for the LaTeX preamble.
+    #
+    # 'preamble': '',
+    'preamble': r'''
+    \setcounter{secnumdepth}{3}
+    \newcommand{\p}[1]{\frac{\partial }{\partial #1}}
+    \newcommand{\pp}[2]{\frac{\partial #1}{\partial #2}}
+    \newcommand{\dd}[2]{\frac{d #1}{d #2}}
+    \newcommand{\h}{\frac{1}{2}}
+    \setlength{\tymax}{0.5\textwidth}
+    ''',
+
+    # Latex figure (float) alignment
+    #
+    # 'figure_align': 'htbp',
+}
+
+# Grouping the document tree into LaTeX files. List of tuples
+# (source start file, target name, title,
+#  author, documentclass [howto, manual, or own class]).
+latex_documents = [
+    (master_doc, 'FESOM2.tex', u'FESOM2 Documentation',
+     u'Sergey Danilov, Dmitry Sidorenko, Patrick Scholz, \\and Qiang Wang, and Nikolay Koldunov', 'manual'),
+]
+
+# -- Options for manual page output ---------------------------------------
+
+# One entry per manual page. List of tuples
+# (source start file, name, description, authors, manual section).
+man_pages = [
+    (master_doc, 'fesom2', u'FESOM2 Documentation',
+     [author], 1)
+]
+
+
 def setup(app):
     app.add_stylesheet('css/custom.css')

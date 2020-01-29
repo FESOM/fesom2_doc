@@ -3,8 +3,29 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to fesom2's documentation!
-==================================
+FESOM2 documentation
+====================
+
+Authors
+   -------
+
+   Sergey Danilov, Dmitry Sidorenko, Patrick Scholz, Qiang Wang and Nikolay Koldunov
+
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   getting_started/getting_started
+   general_configuration/general_configuration
+   ocean_configuration/ocean_configuration
+   meshes/meshes
+   data_processing/data_processing
+   testing
+   geometry
+   main_equations
+   zreferences
 
 Proposed structure:
 
@@ -55,22 +76,6 @@ Proposed structure:
     Example experiments
     FAQ
     History
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
-   getting_started/getting_started
-   general_configuration/general_configuration
-   ocean_configuration/ocean_configuration
-   meshes/meshes
-   data_processing/data_processing
-   testing
-   geometry
-   main_equations
-   zreferences
-
-
 
 Indices and tables
 ==================
