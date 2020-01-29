@@ -90,3 +90,28 @@ The equations of motion, continuity and tracer balance are integrated vertically
 Here, :math:`W` is the water flux leaving the ocean at the surface, it contributes to the first layer only (hence the delta-function); :math:`T_W` is the property transported with the surface water flux and the indices :math:`t` and :math:`b` imply the top and the bottom of the layer.
 
 The right hand side of :eq:`eq_tracer` contains the 3 by 3 diffusivity tensor :math:`{\bf K}`. We still use :math:`\nabla` in :eq:`eq_tracer` for the 3D divergence (the outer :math:`\nabla`) for brevity, but assume the discrete form :math:`\nabla_h(...)+((...)^t-(...)^b)/h_k`, where :math:`(...)` are the placeholders for the horizontal and vertical components of 3D vector it acts on. A correct discretization of the diffusivity term is cumbersome and will be explained below.
+
+- Vertical sum of :eq:`eq_thickness` over layers with account that :math:`w^t=0` at the free surface and :math:`w_b=0` at the bottom gives the 'layered' version of the elevation equation
+
+   .. math::
+      \partial_t\eta+\nabla_h\cdot\sum_kh_k{\bf u}_k+W=0.
+      :label: eq_eta
+
+- The layer-integrated momentum equation in the flux form is
+
+      .. math::
+         \partial_t(h{\bf u})+\nabla_h\cdot(h{\bf u u})+w^t{\bf u}^t-w^b{\bf u}^b+
+         f{\bf k}\times{\bf u}h +h(\nabla_h p+g\rho\nabla Z)/\rho_0=  \nonumber \\ D_{uh}{\bf u}+(\nu_v\partial_z{\bf u})^t-(\nu_v\partial_z{\bf u})^b,
+         :label: eq_mom_fl
+  with :math:`D_{uh}{\bf u}` the horizontal viscosity operator for the flux form (to be specified later), :math:`\nu_v` the vertical viscosity coefficient, :math:`f` the Coriolis parameter and :math:`{\bf k}` a unit vertical vector. We ignore the momentum source due to the added water :math:`W` at the surface. Note that it could be more natural to formulate the solution procedure in terms of the horizontal layer transport velocities :math:`{\bf U}=h{\bf u}` in this case, but the present implementation in FESOM deals with separate :math:`h` and :math:`\mathbf{u}`.
+
+- The pressure field is expressed as
+
+      .. math::
+         p=g\rho_0\eta+P, \quad P_{1}=p_a+g\rho_1h_1/2, \quad P_k=P_{k-1}+g(\rho_{k-1}h_{k-1}+ \rho_kh_k)/2.
+         :label: eq_pressure
+   with :math:`p_a` the atmospheric pressure, :math:`\rho` the deviation of density from its reference value :math:`\rho_0`, and :math:`P` is the variable hydrostatic pressure due to :math:`\rho`. The pressure gradient in continuous equations :eq:`eq_cmom` has to be computed at constant :math:`z`. The model levels deviate from surfaces :math:`z=\rm{const}`. The term :math:`g\rho\nabla Z`, appearing together with the horizontal pressure gradient in :eq:`eq_mom_fl` compensates for the deviation. The quantity :math:`Z` appearing in this term is the :math:`z`-coordinate of the midplane of the layer with the thickness :math:`h`.
+
+
+
+

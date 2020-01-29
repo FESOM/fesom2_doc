@@ -55,3 +55,6 @@ html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 
 html_logo = 'fesom_logo.png'
+
+def setup(app):
+    app.add_stylesheet('css/custom.css')
