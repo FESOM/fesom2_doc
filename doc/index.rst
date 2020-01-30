@@ -27,6 +27,7 @@ Authors
    main_equations
    vertical_discretization
    temporal_discretization
+   spatial_discretization
    zreferences
 
 Proposed structure:

@@ -122,3 +122,72 @@ The overall solution strategy is as follows.
 
 - Advance the tracers. The implementation of implicit vertical diffusion will be detailed below.
 
+Momentum equation in form :eq:`eq_mom_fl`
+=========================================
+
+Here an additional difficulty is the presence of :math:`h` in the time derivative and on the rhs. The rule is that :math:`\mathbf{u}` should appear with the same :math:`h^*` as in the thickness or tracer equation. We used thus far the choice :math:`h^*\mathbf{u}^n=h^{n-1/2}\mathbf{u}^n` in these equations, which implies that the time derivative will be
+
+.. math::
+   \partial_t(\mathbf{u}h)=( h^{n+1/2}\mathbf{u}^{n+1}-h^{n-1/2}\mathbf{u}^n)/\tau,
+
+:math:`h^{n-1/2}` will be used on the rhs with pressure gradient term, and the predictor equation will be written for :math:`h^{n-1/2}\Delta\mathbf{u}`. In this case vh^{n-1/2}` can be factored out of the lhs, which will make predictor solution similar. The corrector step will be modified to
+
+.. math::
+   h^{n+1/2}{\bf u}^{n+1}-h^{n-1/2}{\bf u}^{*}=-gh^{n-1/2}\tau\theta\nabla(\eta^{n+1}-\eta^n).
+   :label: eq_corf1
+
+
+It will lead to the replacement of :math:`h^{n+1/2}` in the lhs of :eq:`eq_etaa` by :math:`h^{n-1/2}`. We stress once again that the expressions in this section are for the particular choice of :math:`h^*`.
+
+Current options for the vertical coordinate
+===========================================
+
+The following options for the vertical coordinate are available at present:
+
+- Linear free surface: If we keep the layer thicknesses fixed, the time derivative in :eq:`eq_ht` drops out, and it becomes the standard equation to compute :math:`w`, starting from the bottom and continuing to the top,
+
+
+  .. math::
+     w^t-w^b+\nabla\cdot({h\bf u})=0.
+
+
+ If this option is applied also to the first layer, the freshwater flux cannot be taken into account in the thickness equation. Its contribution to the salinity equation is added through a virtual salinity flux. In this option, :math:`w` at the (fixed) ocean surface differs from zero, and so do the tracer fluxes. They do not necessarily integrate to zero over the ocean surface which is why tracer conservation is violated.
+
+- Full (nonlinear) free surface: We adjust the thickness of the upper layer, while the thicknesses of all other layers are kept fixed, :math:`\partial_th_k=0` for :math:`k>1`. The thickness equations are used to compute :math:`w` on levels :math:`k=2:K_v` starting from the bottom. The change in the thickness of the first layer :math:`h^{n+3/2}_1-h^{n+1/2}_1` is given by :eq:`eq_hbar` written for the respective time interval. In this case there is no transport through the upper moving surface (the transport velocity :math:`w_1` is identically zero). This option requires minimum adjustment with respect to the linear free surface. However, the matrix of the operator in :eq:`eq_etaa` needs to be re-assembled on each time step.
+
+- We can distribute the total change in height :math:`\partial_t\overline h` between several or all eligible layers. Due to our implementation, at  *each* scalar horizontal location they can only be the layers that do not touch the bottom topography. If all eligible layers are involved we estimate
+
+
+  .. math::
+     \partial_t h_k=(h_k^0/\tilde H)\partial_t\overline h,
+
+
+  where :math:`h_k^0` are the unperturbed layer thicknesses and :math:`\tilde H` is their sum for all eligible layers. The thickness of the layers adjacent to the topography is kept fixed. The equation on thickness, written for each layer, is used to compute transport velocities :math:`w` starting from zero bottom value. This variant gives the so-called :math:`z^*`-coordinate.
+
+- Additional options will be gradually added. Layer thicknesses can vary in many ways provided that their tendencies sum to :math:`\partial_t\overline h` over the layers. In particular, requiring that transport velocities :math:`w` are zero, isopycnal layers can be introduced. The levels can move with high-pass vertical velocities, leading to the so called :math:`\tilde z` coordinate, see :cite:`Leclair2011`, :cite:`Petersen2015` or follow density gradients as in :cite:`Hofmeister2010`. The unperturbed layer thicknesses need not follow the geopotential surfaces and can be terrain following for example.
+
+- The ALE vertical coordinate is only a framework where many options are in principle possible. Additional measures may be required in each particular case, as computations of pressure gradients with reduced errors. Updated transport algorithms may be needed (in the spirit of :cite:`Lemarie2012b` to minimize spurious numerical mixing in terrain-following layers. These generalizations are among the topics of ongoing work.
+
+
+Implicit vertical diffusion
+===========================
+
+We return to the tracer equation :eq:`eq_tracert`. The vertical diffusion in this equation may present a CFL limitation and is treated implicitly.
+
+Because of varying layer thicknesses, the implementation of implicit vertical diffusion needs slight adjustment compared to the common case of fixed layers. We write, considering time levels :math:`n-1/2` and :math:`n+1/2z`,
+
+.. math::
+   h^{n+1/2}T^{n+1/2}-h^{n-1/2}T^{n-1/2}=\tau(R_T^{n}+(K_{33}\partial_zT^{n+1/2})^t-(K_{33}\partial_zT^{n+1/2})^b)
+
+
+and split it into
+
+.. math::
+   h^{n+1/2}T^{*}-h^{n-1/2}T^{n-1/2}=\tau R_T^{n}
+
+and
+
+.. math::
+   h^{n+1/2}(T^{n+1/2}-T^{*})=\tau(K_{33}\partial_z(T^{n+1/2}-T^*)+K_{33}\partial_zT^*)|^t_b.
+
+Here :math:`R_T` contains all advection terms and the terms due to the diffusion tensor except for the diagonal term with :math:`K_{33}`. The preliminary computation of :math:`T^*` are necessary to guarantee that a uniform tracer distribution stays uniform (some significant digits will be lost otherwise).
