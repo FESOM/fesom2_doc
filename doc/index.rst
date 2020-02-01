@@ -28,6 +28,9 @@ Authors
    vertical_discretization
    temporal_discretization
    spatial_discretization
+   time_stepping_transport
+   subcycling_instead_solver
+   isoneutral_diffusion_triangular_prisms
    zreferences
 
 Proposed structure:
