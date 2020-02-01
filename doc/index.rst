@@ -22,7 +22,6 @@ Authors
    ocean_configuration/ocean_configuration
    meshes/meshes
    data_processing/data_processing
-   testing
    geometry
    main_equations
    vertical_discretization
