@@ -120,7 +120,12 @@ There are several configuration files, but we are only interested in the ``namel
 Running the model
 -----------------
 
-Change to the ``work`` directory. You should find several batch scripts that are used to submit model jobs to HPC machines. The scripts also link ``fesom.x`` executable to the ``work`` directory and copy namelists with configurations from config folder. **NOTE, model executable, configuration namelists and job script have to be located in the same directory (usually work)**.  If you are working on AWI's ``ollie`` supercomputer, you have to use ``job_ollie``, in other case use the job script for your specific HPC platform, or try to modify one of the existing ones.
+Change to the ``work`` directory. You should find several batch scripts that are used to submit model jobs to HPC machines. The scripts also link ``fesom.x`` executable to the ``work`` directory and copy namelists with configurations from config folder.
+
+.. note::
+   Note, model executable, configuration namelists and job script have to be located in the same directory (usually work).
+
+If you are working on AWI's ``ollie`` supercomputer, you have to use ``job_ollie``, in other case use the job script for your specific HPC platform, or try to modify one of the existing ones.
 
 On ``ollie`` the submission of your job is done by executing the following command:
 
