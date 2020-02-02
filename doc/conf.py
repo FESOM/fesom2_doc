@@ -61,7 +61,7 @@ html_logo = 'fesom_logo.png'
 project = u'FESOM2'
 copyright = u'2014-, FESOM2 contributors'
 
-author = u'Sergey Danilov, Dmitry Sidorenko, Patrick Scholz, Qiang Wang and Nikolay Koldunov'
+author = u'Sergey Danilov, Dmitry Sidorenko, Nikolay Koldunov, Patrick Scholz, Qiang Wang, Thomas Rackow and Helge Goessling'
 
 # -- Options for HTMLHelp output ------------------------------------------
 
@@ -102,8 +102,9 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'FESOM2.tex', u'FESOM2 Documentation',
-     u'Sergey Danilov, Dmitry Sidorenko, Patrick Scholz, \\and Qiang Wang, and Nikolay Koldunov', 'manual'),
+     u'Sergey Danilov, Dmitry Sidorenko, Nikolay Koldunov, Patrick Scholz, \\and Qiang Wang, and Nikolay Koldunov, and Thomas Rackow, and Helge Goessling', 'manual'),
 ]
+
 
 # -- Options for manual page output ---------------------------------------
 
