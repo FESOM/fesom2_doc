@@ -8,7 +8,7 @@ This chapter describes several ways of getting started with FESOM2. First we sho
 TL;DR version for supported HPC systems
 =======================================
 
-Supported systems are: generic ``ubuntu``, ``ollie`` at AWI, ``mistral`` at DKRZ, ``JURECA`` at JSC, ``HLRN``, ``HAZELHEN``. During configuration the system should be recognised and apropriate environmen variables and compiler options will be used.
+Supported systems are: generic ``ubuntu``, ``ollie`` at AWI, ``mistral`` at DKRZ, ``JURECA`` at JSC, ``HLRN``, ``Hazel Hen``. During configuration the system should be recognised and apropriate environmen variables and compiler options will be used.
 ::
 
     git clone https://gitlab.dkrz.de/FESOM/fesom2.git
@@ -333,7 +333,7 @@ Otherwise you have to add another system - have a look at `Adding new platform f
 Model blows up
 --------------
 
-There could many reasons for this, but the first thing to try is to reduce time step or/and increase model visousity for short period of time (see :ref:``). Have a look at `Model spinup / Cold start at higher resolutions`_ for instructions.
+There could many reasons for this, but the first thing to try is to reduce time step or/and increase model visousity for short period of time. Have a look at `Model spinup / Cold start at higher resolutions`_ for instructions.
 
 
 
