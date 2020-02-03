@@ -97,7 +97,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'FESOM2.tex', u'FESOM2 Documentation',
-     u'Sergey Danilov, Dmitry Sidorenko, Nikolay Koldunov, \\and Patrick Scholz, Qiang Wang, \\and Thomas Rackow, and Helge Goessling', 'manual'),
+     u'Sergey Danilov, Dmitry Sidorenko, \\and Nikolay Koldunov,  Patrick Scholz, \\and Qiang Wang, Thomas Rackow, \\and Helge Goessling', 'manual'),
 ]
 
 
