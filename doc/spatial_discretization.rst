@@ -53,8 +53,8 @@ Here :math:`{\bf r}_{cn}=(x_{cn}, y_{cn})` is the vector connecting the center o
 .. math::
    g_{cn}^x=(x_{cn}Y^2-y_{cn}XY)/d, {} \\ {} g_{cn}^y=(y_{cn}X^2-x_{cn}XY)/d. {}
 
-Here :math:`d=X^2Y^2-(XY)^2`, :math:` X^2=\sum_{n\in N(c)} x_{cn}^2`,
-:math:`Y^2=\sum_{n(c)} y_{cn}^2` and :math:`XY=\sum_{n\in N(c)} x_{cn}y_{cn}`. The matrix entries stored in the array `gradient_vec(1:6,1:myDim\_elem2D)` in the order the neighbor elements are listed, first for :math:`x` and then for :math:`y` component. They are computed only once.
+Here :math:`d=X^2Y^2-(XY)^2`, :math:`X^2=\sum_{n\in N(c)} x_{cn}^2`,
+:math:`Y^2=\sum_{n(c)} y_{cn}^2` and :math:`XY=\sum_{n\in N(c)} x_{cn}y_{cn}`. The matrix entries stored in the array ``gradient_vec(1:6,1:myDim\_elem2D)`` in the order the neighbor elements are listed, first for :math:`x` and then for :math:`y` component. They are computed only once.
 
 On the cells touching the lateral walls or bottom topography we use ghost cells (mirror reflections with respect to boundary edge). Their velocities are computed either as :math:`{\bf u}_{n}=-{\bf u}_{c}` or :math:`{\bf u}_{n}={\bf u}_{c}-2({\bf u}_{c}\cdot{\bf n}_{nc}){\bf n}_{nc}` for the no-slip or free-slip cases respectively. Here :math:`n` is the index of the ghost cell, and :math:`{\bf n}_{nc}` is the vector of unit normal to the edge between cells :math:`c` and :math:`n`. Note that filing ghost cells takes additional time, but allows using matrices :math:`g_{cn}^x` and :math:`g_{cn}^y` related to the surface cells only. Otherwise separate matrices will be needed for each layer. Note also that ghost cells are insufficient to implement the free-slip condition. In addition, the tangent component of viscous stress should be eliminated directly.
 

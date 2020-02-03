@@ -64,11 +64,16 @@ The right hand side of :eq:`eq_tracer` contains the 3 by 3 diffusivity tensor :m
 
 - Instead of using the flux form of momentum equation :eq:`eq_mom_fl` representing momentum balance in the layer one can work without layer integration. Of particular interest is the vector-invariant form written as
 
-      .. math::
-         \partial_t{\bf u}+\frac{\omega+f}{h}{\bf k}\times{\bf u}h+((w\partial_z{\bf u})^t+(w\partial_z{\bf u})^b)/2 +\nabla (p/\rho_0+{\bf u}^2/2)+g\rho\nabla Z/\rho_0= \nonumber \\ D_u{\bf u}+((\nu_v\partial_z{\bf u})^t-(\nu_v\partial_z{\bf u})^b)/h.
-         :label: eq_mom_vei
+  .. math::
+     \partial_t{\bf u}+\frac{\omega+f}{h}{\bf k}\times{\bf u}h+((w\partial_z{\bf u})^t+(w\partial_z{\bf u})^b)/2 +\nabla (p/\rho_0+{\bf u}^2/2)+g\rho\nabla Z/\rho_0= \nonumber \\ D_u{\bf u}+((\nu_v\partial_z{\bf u})^t-(\nu_v\partial_z{\bf u})^b)/h.
+     :label: eq_mom_vei
 
-  Here, the identity :math:`{\bf u}\cdot\nabla{\bf u}=\omega{\bf k}\times{\bf u}+\nabla({\bf u}^2/2),\quad \omega={\bf k}\cdot(\nabla\times{\bf u})` was used.
+  Here, the identity
+
+  .. math::
+     {\bf u}\cdot\nabla{\bf u}=\omega{\bf k}\times{\bf u}+\nabla({\bf u}^2/2),\quad \omega={\bf k}\cdot(\nabla\times{\bf u})
+
+  was used.
 
 - The second term on the lhs of :eq:`eq_mom_vei` includes division and multiplication with the layer thickness, and in doing so, it introduces the layer potential vorticity (PV), :math:`q=(\omega+f)/h` and its transport :math:`{\bf u}h`. The layer thickness formally drops out from the equation :eq:`eq_mom_vei` which is still continuous in the horizontal direction. However, in the discrete case, the location of vorticity points (vertices) and velocity points is different. By keeping separate $h$ the equation will then operate on the same horizontal transports as the thickness equations. This is the prerequisite for developing discretizations that conserve potential vorticity.
 
