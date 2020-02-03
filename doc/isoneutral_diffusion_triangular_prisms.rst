@@ -45,7 +45,7 @@ The last step is to compute the contribution to the rhs of scalar equation from 
 Since we deal with layer-integrated equations, the division is over the area of scalar cell :math:`v` instead of division by volume. Writing down the expression for :math:`R_T` is a rather tedious task. The result can be reformulated in terms of the discrete divergence of discrete flux. Indeed, :math:`(R_T)_{kv}A_{kv}` is the volume-integrated rhs, i. e., the sum of fluxes through the faces.
 
 Note that since :math:`\mathcal{F}` is a bilinear form, the definition of the rhs is always globally consistent. Indeed, the total variance
-dissipation is 2:math:`\sum_{k,v}T_{kv}(R_T)_{kv}A_{kv}
+dissipation is :math:`\sum_{k,v}T_{kv}(R_T)_{kv}A_{kv}
 =2\sum_{k,v}T_{kv}\partial\mathcal{F}/\partial \tilde T_{kv}=2\mathcal{F}(T,T)`.
 
 In summary, the variational formulation originally proposed for quadrilaterals can easily be extended to triangular meshes. All symmetry properties will be granted if computations
