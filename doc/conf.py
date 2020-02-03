@@ -74,22 +74,17 @@ htmlhelp_basename = 'FESOM2doc'
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     #
-    # 'papersize': 'letterpaper',
+    'papersize': 'a4paper',
 
     # The font size ('10pt', '11pt' or '12pt').
     #
-    # 'pointsize': '10pt',
+    'pointsize': '12pt',
 
     # Additional stuff for the LaTeX preamble.
     #
     # 'preamble': '',
     'preamble': r'''
     \setcounter{secnumdepth}{3}
-    \newcommand{\p}[1]{\frac{\partial }{\partial #1}}
-    \newcommand{\pp}[2]{\frac{\partial #1}{\partial #2}}
-    \newcommand{\dd}[2]{\frac{d #1}{d #2}}
-    \newcommand{\h}{\frac{1}{2}}
-    \setlength{\tymax}{0.5\textwidth}
     ''',
 
     # Latex figure (float) alignment
