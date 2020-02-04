@@ -311,6 +311,40 @@ Increase the timestep gradually. Very highly resolved meshes may require an init
 Adding new platform for compilation
 -----------------------------------
 
+In order to add a new platform for compilation, you simply have to specify the computational environment. In a simplest case this require:
+
+- To edit the ``env.sh`` file.
+- To add a folder with the name of the platform to the ``env`` folder and put the ``shell`` file with enrionment setup.
+
+In the ``env.sh`` file you have to add one more ``elif`` statement in to the ``if`` control stucture, where the platform (let's call it ``mynewhost``) is selected::
+
+    elif [[  $LOGINHOST = mynewhost ]]; then
+        STRATEGY="mynewhost"
+
+As you can see in the ``env.sh`` file some host systems are authomatically identified by using regular expressions, but the simpliest way is just to explicitly provide the name of the host system.
+
+The next step is to create additional folder in the ``env`` folder::
+
+    mkdir ./env/mynewhost
+
+and add a file name with the name ``shell`` to it. This file will be sourced before the compilation, so you can setup the environment (bash syntax) in it. Please have a look at the ``shell`` file in other folders for examples. Now you should be able to do::
+
+    bash -l ./configure.sh mynewhost
+
+to do the compilation.
+
+If you are lucky this will be everything you need. However in more complicated cases one  had to adjust CMake files (``CMakeLists.txt`` located in folders), so the knowlege of CMake is required.
+
+Change compiler options
+-----------------------
+
+Compiler options for FESOM2 code can be changed in the ``./src/CMakeLists.txt`` file. Currently the defenition of compiler options for Intel compiler looks like::
+
+    if(${CMAKE_Fortran_COMPILER_ID} STREQUAL  Intel )
+        target_compile_options(${PROJECT_NAME} PRIVATE -r8 -i4 -fp-model precise -no-prec-div -no-prec-sqrt -fast-transcendentals -xHost -ip -init=zero)
+
+At present only Intel and GNU compilers are supported, but the user can realtivelly easy add options by following the same pattern.
+
 
 Ubuntu based Docker container (to get first impression of the model)
 ====================================================================
