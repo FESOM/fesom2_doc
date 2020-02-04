@@ -346,10 +346,6 @@ Compiler options for FESOM2 code can be changed in the ``./src/CMakeLists.txt`` 
 At present only Intel and GNU compilers are supported, but the user can realtivelly easy add options by following the same pattern.
 
 
-Ubuntu based Docker container (to get first impression of the model)
-====================================================================
-
-
 Troubleshooting
 ===============
 
