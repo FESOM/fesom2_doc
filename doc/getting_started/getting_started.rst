@@ -8,21 +8,21 @@ This chapter describes several ways of getting started with FESOM2. First we sho
 TL;DR version for supported HPC systems
 =======================================
 
-Supported systems are: generic ``ubuntu``, ``ollie`` at AWI, ``mistral`` at DKRZ, ``JURECA`` at JSC, ``HLRN``, ``Hazel Hen``. During configuration the system should be recognised and apropriate environmen variables and compiler options will be used.
+Supported systems are: generic ``ubuntu``, ``ollie`` at AWI, ``mistral`` at DKRZ, ``JURECA`` at JSC, ``HLRN``, ``Hazel Hen``, ``Marinostrum 4`` at BSC. During configuration the system will be recognised and apropriate environment variables and compiler options should be used.
 ::
 
     git clone https://gitlab.dkrz.de/FESOM/fesom2.git
     cd fesom2
     bash -l configure.sh
 
-create file fesom.clock in the output directory with the following content (if you plan to run with COREII foring):
+Create file fesom.clock in the output directory with the following content (if you plan to run with COREII foring):
 
 ::
 
     0 1  1948
     0 1  1948
 
-then one has to adjust the run script for the target sustem and run it:
+after that one has to adjust the run script for the target sustem and run it:
 ::
 
     cd work
@@ -51,7 +51,7 @@ or GitLab repository:
 
     git clone https://gitlab.dkrz.de/FESOM/fesom2.git
 
-The repository contains model code and two additional libraries: `Metis` (domain partitioner) and `Parms` (solver), necessary to run FESOM2. To build FESOM2 executable one have to compile Parms library and the code of the model (`src` folder). In order to build executable that is used for model domain partitioning (distribution of the model mesh between CPUs) one have to compile `Metis` library and also some code located in the src directory (see :ref:`partitioning`). Building of the model executable and the pertitioner is usually done automatically with the use of CMake. If you going to build the code not on one of the supported platforms (ollie, DKRZ, HLRN, and HAZELHEN, general Ubuntu), you might need to do some (usually small) modifications described in `Adding new platform for compilation`_ section.
+The repository contains model code and two additional libraries: `Metis` (domain partitioner) and `Parms` (solver), necessary to run FESOM2. To build FESOM2 executable one have to compile Parms library and the code of the model (`src` folder). In order to build executable that is used for model domain partitioning (distribution of the model mesh between CPUs) one have to compile `Metis` library and also some code located in the src directory (see :ref:`partitioning`). Building of the model executable and the partitioner is usually done automatically with the use of CMake. If you going to build the code not on one of the supported platforms (ollie, DKRZ, HLRN, and HAZELHEN, general Ubuntu), you might need to do some (usually small) modifications described in `Adding new platform for compilation`_ section.
 
 Change to the `fesom2` folder and execute:
 
@@ -83,7 +83,7 @@ and doing dearchivation:
 
     tar -xvf FESOM2_minimum_input.tar
 
-You will have a folder named ``FESOM2_minimum_input`` that contains all the data you need to do initial run of the model. The `mesh` directory contains two meshes: ``pi`` and ``CORE``. The ``pi`` mesh is very small global FESOM2 mesh, that can run relativelly fast even on a laptop. The ``CORE`` mesh is our 1 degree equivalent mesh, that is used in many tuning and testing studies. Mesh folders already include several pre-prepeared partitionings (``dist_`` folders), so you don't have to worry about partitioning during your first steps with FESOM.
+You will have a folder named ``FESOM2_minimum_input`` that contains all the data you need to do initial run of the model. The `mesh` directory contains two meshes: ``pi`` and ``CORE``. The ``pi`` mesh is very small global FESOM2 mesh, that can run relativelly fast even on a laptop. The ``CORE`` mesh is our 1 degree equivalent mesh and is used in many tuning and testing studies. Mesh folders already include several prepared partitionings (``dist_`` folders), so you don't have to worry about partitioning during your first steps with FESOM.
 
 The ``input`` folder contains files with initial conditions (``phc3.0``) and atmospheric forcing (``CORE2``) for one year (1948).
 
@@ -91,7 +91,7 @@ The ``input`` folder contains files with initial conditions (``phc3.0``) and atm
 .. _DKRZ cloud: https://swift.dkrz.de/v1/dkrz_035d8f6ff058403bb42f8302e6badfbc/FESOM2.0_tutorial/FESOM2_minimum_input.tar
 
 
-Prepearing the run
+Preparing the run
 ------------------
 
 You have to do several basic things in order to prepare the run. First, create a directory where results will be stored. Usually, it is created in the model root directory:
@@ -107,7 +107,7 @@ you might make a link to some other directory located on the part of the system 
     0 1 1948
     0 1 1948
 
-This is initial date of the model run, or the time the cold start of your model. More detailed explination of the clock file will be given in the `The clock file`_ section.
+This is initial date of the model run, or the time of the `cold start` of your model. More detailed explanation of the clock file will be given in the `The clock file`_ section.
 
 The next step is to make some changes in the model configuration. All runtime options can be set in the namelists that are located in the config directory:
 
@@ -171,7 +171,7 @@ Let's assume that we run the model with a timestep of 30 minutes (= 1800 seconds
     84600.0 365 1948
     0.0     1   1949
 
-where the first row is the second of the day of the last time step of the model, and the second row gives the time when the simulation is to be continued. The first row indicates that the model ran for 365 days (in 1948) and 84600 seconds, which is ``1 day - 1 FESOM timestep`` in seconds. In the next run, FESOM2 will look for restart files for the year 1948 and continue the simulation at the 1st of January in 1949.
+where the first row is the second of the day of the last time step of the model, and the second row gives the time when the simulation is to be continued. The first row indicates that the model ran for 365 days (in 1948) and 84600 seconds, which is ``1 day - 1`` FESOM timestep in seconds. In the next run, FESOM2 will look for restart files for the year 1948 and continue the simulation at the 1st of January in 1949.
 
 Since 1948 is a leap year (366 days), this is an exceptional case and the fesom.clock file after two full years (1948--1949) would look like this:
 84600.0 364 1949
@@ -192,7 +192,7 @@ The simple time management of FESOM2 allows to easily trick FESOM2 to accept exi
     mv fesom.2009.ice.nc fesom.1947.ice.nc
     mv fesom.2009.oce.nc fesom.1947.oce.nc
 
-By changing the clock file into:
+by changing the clock file into:
 
 ::
 
@@ -211,13 +211,13 @@ First meshes you will use probably will come with several predefined partitionin
 
     cd mesh_part
 
-if you on one of the supported systems, you shoule be able to execute:
+if you work on the one of the supported systems, you shoule be able to execute:
 
 ::
 
     bash -l ./configure.sh
 
-or in case of the Ubuntu or other customly defined system:
+or, in case of the Ubuntu, or other customly defined system:
 
 ::
 
@@ -229,11 +229,11 @@ The ``cmake`` should build the partitioner for you. If your system is not suppor
 Running mesh partitioner
 ------------------------
 
-You have to do this step only if your mesh does not have partitioning for the desired number of CPUs yet. You can understand if the partitioning exists by the presence of the ``dist_XXXX`` folder(s) in your mesh folder, where XXX is the number of CPUs. If the folder contains files with partitioning, you can just skip this step.
+You have to do this step only if your mesh does not have partitioning for the desired number of cores yet. You can understand if the partitioning exists by the presence of the ``dist_XXXX`` folder(s) in your mesh folder, where XXX is the number of CPUs. If the folder contains files with partitioning, you can just skip this step.
 
-Partitioning is going to split your mesh into pieces that correspond to the number of CPUs you going to request. Now FESOM2 scales until 300 nodes per CPU, further increase in the amount of CPU will probably have relatively small effect.
+Partitioning is going to split your mesh into pieces that correspond to the number of cores you going to request. Now FESOM2 scales until 300 vertices per core, further increase in the amount of cores will probably have relatively small effect.
 
-In order to tell the partitioner how many CPUs you need the partitioning for, one has to edit ``&machine`` section in the ``namelist.config`` file (see also :ref:`chap_general_configuration`). There are two options: ``n_levels`` and ``n_part``. FESOM mesh can be partitioned with use of several hierarchy levels and ``n_levels`` define the number of levels while ``n_part`` the number of partitions on each hierarchy level. The simplest case is to use one level and ``n_part`` just equal to the number of CPUs and we recoment to use it at the beggining:
+In order to tell the partitioner how many cores you need the partitioning for, one has to edit ``&machine`` section in the ``namelist.config`` file (see also :ref:`chap_general_configuration`). There are two options: ``n_levels`` and ``n_part``. FESOM mesh can be partitioned with use of several hierarchy levels and ``n_levels`` define the number of levels while ``n_part`` the number of partitions on each hierarchy level. The simplest case is to use one level and ``n_part`` just equal to the number of cores and we recoment to use it at the beggining:
 
 ::
 
@@ -245,7 +245,7 @@ This will prepear your mesh to run on 288 computational cores.
 In order to run the partitioner change to the ``work`` directory. You should find several batch scripts that are used to submit partitioner jobs to HPC machines (have ``_ini_`` in their names). The scripts also links ``fesom_ini.x`` executable to the ``work`` directory and copy namelists with configurations from ``config`` folder (for partitioner we actually need only ``namelist.config``, but scripts copy everything).
 
 .. note::
-   For the partitioner to run, the ``fesom_ini.x`` executable, configuration namelists (in particuler ``namelist.config``) and job script have to be located in the same directory (usually ``work``).
+   For the partitioner to run, the ``fesom_ini.x`` executable, configuration namelists (in particular ``namelist.config``) and job script have to be located in the same directory (usually ``work``).
 
 If you are working on AWI's ``ollie`` supercomputer, you have to use ``job_ini_ollie``, in other case use the job script for your specific HPC platform, or try to modify one of the existing ones. For relativelly small meshes (up to 1M nodes) and small partitions it is usually fine just to run the partitioner on a login node (it is serial anyway), like this:
 
@@ -273,7 +273,7 @@ Model spinup / Cold start at higher resolutions
 
 Cold starting the model at high mesh resolutions with standard values for timestep and viscosity will lead to instabilities that cause the model to crash. If no restart files are available and a spinup has to be performed, the following changes should be made for the first month long simulation and then taken back gradually over the next 6-8 months:
 
-- First thing that usually helps (espetially at low resolution meshes) is to set in ``namelist.oce``::
+- First thing to try, that usually helps, is to set in the ``namelist.oce``::
 
     w_split=.true.
 
@@ -286,7 +286,7 @@ Cold starting the model at high mesh resolutions with standard values for timest
   or even lower (e.g. value 1440 will lead to 1 minute timestep).
 
 .. note::
-   Make sure that for the high resolution runs (with mesh resolution over considerable portions of the domain larger than 25-10 km) you don't use the default "Easy Backscatter" (``visc_option=5``). This is true not only for the spinup, but for the whole duration of the run. The "Easy Backscatter" option works very good on low resolution meshes, but for high resolution meshes (eddy resolving) it makes more harm than good.
+   Make sure that for the high resolution runs (with mesh resolution over considerable portions of the domain finer than 25-10 km) you don't use the default "Easy Backscatter" (``visc_option=5``). This is true not only for the spinup, but for the whole duration of the run. The "Easy Backscatter" option works very good on low resolution meshes, but for high resolution meshes (eddy resolving) it makes more harm than good.
 
 
 - In ``namelist.oce`` make sure that ``visc_option`` is set to 2 (see the note above) and increase viscosity to something like:
@@ -296,7 +296,7 @@ Cold starting the model at high mesh resolutions with standard values for timest
       Div_c=5
       Leith_c=.5
 
-After running for about a month change one of the parameters to more standard values. If you change the values of run lengh and restart output frequency (which you prpbebly whant to do during the spinup, to run for short periods), don't forget to change them back in the ``namelist.config``:
+After running for about a month change one of the parameters to more standard values. If you change the values of run lengh and restart output frequency (which you probably want to do during the spinup, to run for short periods), don't forget to change them back in the ``namelist.config``:
 
 ::
 
@@ -311,7 +311,7 @@ Increase the timestep gradually. Very highly resolved meshes may require an init
 Adding new platform for compilation
 -----------------------------------
 
-In order to add a new platform for compilation, you simply have to specify the computational environment. In a simplest case this require:
+In order to add a new platform for compilation, you simply have to specify the computational environment. In a simplest case this requires:
 
 - To edit the ``env.sh`` file.
 - To add a folder with the name of the platform to the ``env`` folder and put the ``shell`` file with enrionment setup.
@@ -363,7 +363,7 @@ Otherwise you have to add another system - have a look at `Adding new platform f
 Model blows up
 --------------
 
-There could many reasons for this, but the first thing to try is to reduce time step or/and increase model visousity for short period of time. Have a look at `Model spinup / Cold start at higher resolutions`_ for instructions.
+There could by many reasons for this, but the first thing to try is to reduce time step or/and increase model viscosity for short period of time. Have a look at `Model spinup / Cold start at higher resolutions`_ for instructions.
 
 
 
