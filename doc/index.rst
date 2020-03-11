@@ -21,9 +21,9 @@ Authors
    ocean_configuration/ocean_configuration
    forcing_configuration
    seaice_configuration
-   meshes/meshes
    data_processing/data_processing
    geometry
+   meshes/meshes
    main_equations
    vertical_discretization
    temporal_discretization

@@ -25,7 +25,7 @@ Here :math:`\tau` is the time step and :math:`D_T` stands for the terms related 
 .. note::
    Note that :math:`\mathbf{u}` and :math:`h` enter similarly in the equations for thickness and tracer. This warrants consistency: if :math:`T=\rm{const}`, the tracer equation reduces to the thickness equation.
 
-Since the horizontal velocity is centered in time, these equations will be of the second order for the advective terms if :math:`h^*` is centered (:math:`h^*=h^nz`) or if any other high-order estimate is used. The treatment of :math:`h^*` depends on options. At present FESOM allows only the simplest choices when :math:`h` vary only slightly with respect to unperturbed thickness and :math:`\partial_th` is prescribed by the evolution of :math:`\eta`. We take :math:`h^*=h^{n-1/2}` in this case because this choice can easily be made consistent with elevation, see further.
+Since the horizontal velocity is centered in time, these equations will be of the second order for the advective terms if :math:`h^*` is centered (:math:`h^*=h^n`) or if any other high-order estimate is used. The treatment of :math:`h^*` depends on options. At present FESOM allows only the simplest choices when :math:`h` vary only slightly with respect to unperturbed thickness and :math:`\partial_th` is prescribed by the evolution of :math:`\eta`. We take :math:`h^*=h^{n-1/2}` in this case because this choice can easily be made consistent with elevation, see further.
 
 Although this formally reduces the time order to the first, the elevation is usually computed with the accuracy shifted to the first-order in large-scale ocean models, including this one.
 
@@ -50,7 +50,7 @@ In order to filter the external mode :math:`\eta` is advanced implicitly in time
    \eta^{n+1}-\eta^n=-\tau(\alpha(\nabla\cdot\sum_k{h}_k^{n+1/2}{\bf u}_k^{n+1}+W^{n+1/2})+(1-\alpha)(\nabla\cdot\sum_k{h}_k^{n-1/2}{\bf u}_k^{n}+W^{n-1/2})).
    :label: eq_etat
 
-Here :math:`\alpha` is the implicitness parameter (:math:`0.5\le\alpha\le1`) in the continuity equation. Note that the velocities at different time steps are taken with their respective thicknesses in the same way as they appear in the thickness equation eq:`eq_ht`. The approach below is inspired by :cite:`Campin2004`. The equation for thicknesses can be vertically integrated giving, under the condition that the surface value of :math:`w^t` vanishes,
+Here :math:`\alpha` is the implicitness parameter (:math:`0.5\le\alpha\le1`) in the continuity equation. Note that the velocities at different time steps are taken with their respective thicknesses in the same way as they appear in the thickness equation :eq:`eq_ht`. The approach below is inspired by :cite:`Campin2004`. The equation for thicknesses can be vertically integrated giving, under the condition that the surface value of :math:`w^t` vanishes,
 
 .. math::
    \overline{h}^{n+1/2}-\overline{h}^{n-1/2}=-\tau\nabla\cdot\sum_k{h}_k^{n-1/2}{\bf u}_k^n-\tau W^{n-1/2}.
@@ -130,7 +130,7 @@ Here an additional difficulty is the presence of :math:`h` in the time derivativ
 .. math::
    \partial_t(\mathbf{u}h)=( h^{n+1/2}\mathbf{u}^{n+1}-h^{n-1/2}\mathbf{u}^n)/\tau,
 
-:math:`h^{n-1/2}` will be used on the rhs with pressure gradient term, and the predictor equation will be written for :math:`h^{n-1/2}\Delta\mathbf{u}`. In this case vh^{n-1/2}` can be factored out of the lhs, which will make predictor solution similar. The corrector step will be modified to
+:math:`h^{n-1/2}` will be used on the rhs with pressure gradient term, and the predictor equation will be written for :math:`h^{n-1/2}\Delta\mathbf{u}`. In this case :math:`h^{n-1/2}` can be factored out of the lhs, which will make predictor solution similar. The corrector step will be modified to
 
 .. math::
    h^{n+1/2}{\bf u}^{n+1}-h^{n-1/2}{\bf u}^{*}=-gh^{n-1/2}\tau\theta\nabla(\eta^{n+1}-\eta^n).
@@ -166,7 +166,7 @@ The following options for the vertical coordinate are available at present:
 
 - Additional options will be gradually added. Layer thicknesses can vary in many ways provided that their tendencies sum to :math:`\partial_t\overline h` over the layers. In particular, requiring that transport velocities :math:`w` are zero, isopycnal layers can be introduced. The levels can move with high-pass vertical velocities, leading to the so called :math:`\tilde z` coordinate, see :cite:`Leclair2011`, :cite:`Petersen2015` or follow density gradients as in :cite:`Hofmeister2010`. The unperturbed layer thicknesses need not follow the geopotential surfaces and can be terrain following for example.
 
-- The ALE vertical coordinate is only a framework where many options are in principle possible. Additional measures may be required in each particular case, as computations of pressure gradients with reduced errors. Updated transport algorithms may be needed (in the spirit of :cite:`Lemarie2012b` to minimize spurious numerical mixing in terrain-following layers. These generalizations are among the topics of ongoing work.
+- The ALE vertical coordinate is only a framework where many options are in principle possible. Additional measures may be required in each particular case, such as computations of pressure gradients with reduced errors. Updated transport algorithms may be needed (in the spirit of :cite:`Lemarie2012b` to minimize spurious numerical mixing in terrain-following layers. These generalizations are among the topics of ongoing work.
 
 
 Implicit vertical diffusion
@@ -174,7 +174,7 @@ Implicit vertical diffusion
 
 We return to the tracer equation :eq:`eq_tracert`. The vertical diffusion in this equation may present a CFL limitation and is treated implicitly.
 
-Because of varying layer thicknesses, the implementation of implicit vertical diffusion needs slight adjustment compared to the common case of fixed layers. We write, considering time levels :math:`n-1/2` and :math:`n+1/2z`,
+Because of varying layer thicknesses, the implementation of implicit vertical diffusion needs slight adjustment compared to the common case of fixed layers. We write, considering time levels :math:`n-1/2` and :math:`n+1/2`,
 
 .. math::
    h^{n+1/2}T^{n+1/2}-h^{n-1/2}T^{n-1/2}=\tau(R_T^{n}+(K_{33}\partial_zT^{n+1/2})^t-(K_{33}\partial_zT^{n+1/2})^b)
@@ -190,4 +190,4 @@ and
 .. math::
    h^{n+1/2}(T^{n+1/2}-T^{*})=\tau(K_{33}\partial_z(T^{n+1/2}-T^*)+K_{33}\partial_zT^*)|^t_b.
 
-Here :math:`R_T` contains all advection terms and the terms due to the diffusion tensor except for the diagonal term with :math:`K_{33}`. The preliminary computation of :math:`T^*` are necessary to guarantee that a uniform tracer distribution stays uniform (some significant digits will be lost otherwise).
+Here :math:`R_T` contains all advection terms and the terms due to the diffusion tensor except for the diagonal term with :math:`K_{33}`. The preliminary computation of :math:`T^*` is necessary to guarantee that a uniform tracer distribution stays uniform (some significant digits will be lost otherwise).

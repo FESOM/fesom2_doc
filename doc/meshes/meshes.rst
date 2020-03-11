@@ -6,7 +6,7 @@ Meshes
 Mesh files
 ==========
 
-FESOM2 as well as FESOM1.4 is formulated on general triangular meshes. There are three mesh files that are read: ``nod2d.out, elem2d.out`` and ``aux3d.out``.This three files is enough to define a mesh. These are ASCII files storing the information on the coordinates of mesh vertices, on how vertices are combined in triangles and on bottom depth at vertices.
+FESOM2 as well as FESOM1.4 is formulated on general triangular meshes. There are three mesh files that are read: ``nod2d.out, elem2d.out`` and ``aux3d.out``. Those three files are enough to define a mesh. The files are written as simple ASCII files storing the information on the coordinates of mesh vertices, on how vertices are combined in triangles and on bottom depth at vertices.
 The format of the files is as follows:
 
 nod2d.out
@@ -37,7 +37,7 @@ elem2d.out
 |:math:`v_{C1}`|:math:`v_{C2}`|:math:`v_{C3}`|
 +--------------+--------------+--------------+
 
-Here :math:`C` is the number of triangles, :math:`v_{c1}`, :math:`v_{c2}`, :math:`v_{c3}` are the vertices of triangle (cell) :math:`c`. The indexes of vertices are provided in the ``nod2d`` file (:math:`v`).
+Here :math:`C` is the number of triangles, :math:`v_{c1}`, :math:`v_{c2}`, :math:`v_{c3}` are the vertices of triangle (cell) :math:`c`. The indexes and coordinates of vertices are provided in the ``nod2d`` file (:math:`v`).
 
 aux3d.out (to be renamed to depth.out)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -82,11 +82,11 @@ Name correspondence
 
 - :math:`C\,\to {\tt elem2D}`
 
-- The array ``coord_nod2D(1:2,1:myDim_nod2D+eDim_nod2D)`` stores vertex coordinates in radian measure. ``1:myDim_nod2D`` are the vertices that belong to my PE (``myPE``), and ``myDim_nod2D+1:myDim_nod2D+eDim_nod2D`` are the halo vertices. The halo vertices share a common triangle with vertices that belong to :math:``myPE``, yet do not belong to ``myPE``.
+- The array ``coord_nod2D(1:2,1:myDim_nod2D+eDim_nod2D)`` stores vertex coordinates in radian measure.``1:myDim_nod2D`` are the vertices that belong to my PE (``myPE``), and ``myDim_nod2D+1:myDim_nod2D+eDim_nod2D`` are the halo vertices. The halo vertices share a common triangle with vertices that belong to ``myPE``, yet do not belong to the ``myPE`` themselves.
 
-- Each column of array :math:``elem2D_nodes(1:3,1:myDim_elem2D+eDim_elem2D+eXDim_elem2D)`` stores vertex indices of particular triangle. ``1:myDim_elem2D`` are the triangles that belong to ``myPE``, which are those that contain at least one vertex that belongs to ``myPE``. Thus triangles with vertices that belong to several PE counted as my triangle by each PE. The rest combines two types of halo: First triangles sharing an edge with my triangles are added, and then triangles that share vertex with my triangles, but are absent in the smaller halo.
+- Each column of array ``elem2D_nodes(1:3,1:myDim_elem2D+eDim_elem2D+eXDim_elem2D)`` stores vertex indices of particular triangle. ``1:myDim_elem2D`` are the triangles that belong to ``myPE``, which are those that contain at least one vertex that belongs to ``myPE``. Thus, triangles with vertices that belong to several PE are counted as my triangle by each PE. The rest combines two types of halo: First triangles sharing an edge with my triangles are added, and then triangles that share vertex with my triangles, but are absent in the smaller halo.
 
-- Local numbering is used on each PE. Additional arrays are available for local to global transform if needed.
+- Local numbering is used on each PE. Additional arrays are available to do local to global transform if needed.
 
 
 Auxiliary mesh arrays
@@ -106,12 +106,12 @@ Edge arrays:
 Neighborhood arrays:
 ^^^^^^^^^^^^^^^^^^^^
 
-- Two arrays :math:``nod_in_elem2D_num, nod_in_elem2D`` store the number of cell neighbors and their indices for vertex :math:`v` (correspond to :math:`C(v)`)
+- Two arrays ``nod_in_elem2D_num, nod_in_elem2D`` store the number of cell neighbors and their indices for vertex :math:`v` (correspond to :math:`C(v)`)
 - Two arrays ``nod_neighbr_num``, ``nod_neighbr`` store the number of vertex neighbors and their indices for vertex :math:`v` (correspond to :math:`V(v)`)
 
 Areas and derivatives:
 
-- ``elem_area(1:myDim_elem2D+eDim_elem2D+eXDim_elem2D)`` stores areas of elements computed using flat metrics on elements.
+- ``elem_area(1:myDim_elem2D+eDim_elem2D+eXDim_elem2D)`` stores areas of elements computed using local flat metrics on elements.
 - ``areas(1:K,1:myDim_nod2D+eDim_nod2D)`` are the horizontal areas of scalar control volumes. They are computed combining contributions from triangles.
 
 

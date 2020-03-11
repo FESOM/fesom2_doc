@@ -8,7 +8,7 @@ netCDF files for initial conditions
 
 The netCDF files have to satisfy the following criteria:
 
-- shoudl have DIMENSIONS named ``lon/longitude/LON`` , ``lat/latitude/LAT`` and ``depth``
+- should have DIMENSIONS named ``lon/longitude/LON`` , ``lat/latitude/LAT`` and ``depth``
 - should have VARIABLES  named ``lon/longitude/LON`` , lat/latitude/LAT and ``depth``
 - ``lon/lat`` dimentions should be one dimentional (e.g ``lon(lon)``)
 - each variable with initial conditions should have only three dimentions (e.g. ``temp(depth, lat, lon)``)

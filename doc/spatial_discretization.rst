@@ -17,12 +17,12 @@ and similarly for the temperature and other scalars,
 .. math::
    A_{kv}h_{kv}T_{kv}=\int_{kv}TdV.
 
-Here :math:`A_c` and :math:`A_{kv}` are the horizontal areas of cells and scalar prisms. The scalar areas vary with depth, hence the index :math:`k` in :math:`A_{kv}` in the formula above (the index :math:`k` will be suppressed in some cases). For layer k, :math:`A_{kv}` is the area of the prism :math:`kv` including its top face. The area of bottom face is :math:`A_{(k+1)v}` and may differ from that of the top one if the bottom is encountered. To be consistent in spherical geometry, we us
+Here :math:`A_c` and :math:`A_{kv}` are the horizontal areas of cells and scalar prisms. The scalar areas vary with depth, hence the index :math:`k` in :math:`A_{kv}` in the formula above (the index :math:`k` will be suppressed in some cases). For layer :math:`k`, :math:`A_{kv}` is the area of the prism :math:`kv` including its top face. The area of bottom face is :math:`A_{(k+1)v}` and may differ from that of the top one if the bottom is encountered. To be consistent in spherical geometry, we us
 
 .. math::
    A_{kv}=\sum_{c\in\overline C(v)}A_c/3,
 
-where :math:`\overline C(v)` is the list of wet prisms containing :math:`v` in layer :math:`k`.
+where :math:`\overline C(v)` is the set of wet prisms containing :math:`v` in layer :math:`k`.
 
 Since the horizontal velocity is at centroids, its cell-mean value :math:`{\bf u}_c` can be identified with the value of the field :math:`{\bf u}` at the centroid of cell :math:`c` with the second order of spatial accuracy. For scalar quantities a similar rule is valid only on uniform meshes, but even in this case it is violated in the vicinity of boundaries or topography. This has some implications for the accuracy of transport operators.
 
@@ -37,7 +37,7 @@ Scalar gradient takes vertex values of a scalar field and returns the gradient a
 .. math::
    A_c(\nabla p)_c=\int_c\nabla pdS=\sum_{e\in E(c)}l_e{\bf n}_e\sum_{v\in V(e)}p_v/2,
 
-where :math:`{\bf n}_e` is the outer normal to cell :math:`c`. Clearly :math:`l_e{\bf n}_e=-{\bf k}\times{\bf l}_e` if :math:`c` is the first (left) cell of :math:`c(e)`. This procedure introduces :math:`{\bf G}_{cv}=(G^x_{cv},G^y_{cv})` with the :math:`x`- and :math:`y` component matrices :math:`G^x_{cv}` and :math:`G^y_{cv}`. They have three non-zero entries for each cell (triangle) which are stored in the order of triangle vertices, first for :math:`x` and then for :math:`y` component in the array `gradient_sca(1:6,1:myDim\_elem2D)` in the code. In contrast to FESOM1.4, where similar arrays are stored for each tetrahedron (and for 4 vertices and 3 directions), here only surface cells are involved.
+where :math:`{\bf n}_e` is the outer normal to cell :math:`c`. Clearly :math:`l_e{\bf n}_e=-{\bf k}\times{\bf l}_e` if :math:`c` is the first (left) cell of :math:`c(e)`. This procedure introduces :math:`{\bf G}_{cv}=(G^x_{cv},G^y_{cv})` with the :math:`x`- and :math:`y` component matrices :math:`G^x_{cv}` and :math:`G^y_{cv}`. They have three non-zero entries for each cell (triangle) which are stored in the order of triangle vertices, first for :math:`x` and then for :math:`y` component in the array ``gradient_sca(1:6,1:myDim\_elem2D)`` in the code. In contrast to FESOM1.4, where similar arrays are stored for each tetrahedron (and for 4 vertices and 3 directions), here only surface cells are involved.
 
 
 Vector gradient
@@ -54,7 +54,7 @@ Here :math:`{\bf r}_{cn}=(x_{cn}, y_{cn})` is the vector connecting the center o
    g_{cn}^x=(x_{cn}Y^2-y_{cn}XY)/d, {} \\ {} g_{cn}^y=(y_{cn}X^2-x_{cn}XY)/d. {}
 
 Here :math:`d=X^2Y^2-(XY)^2`, :math:`X^2=\sum_{n\in N(c)} x_{cn}^2`,
-:math:`Y^2=\sum_{n(c)} y_{cn}^2` and :math:`XY=\sum_{n\in N(c)} x_{cn}y_{cn}`. The matrix entries stored in the array ``gradient_vec(1:6,1:myDim\_elem2D)`` in the order the neighbor elements are listed, first for :math:`x` and then for :math:`y` component. They are computed only once.
+:math:`Y^2=\sum_{n(c)} y_{cn}^2` and :math:`XY=\sum_{n\in N(c)} x_{cn}y_{cn}`. The matrix entries stored in the array ``gradient_vec(1:6,1:myDim_elem2D)`` in the order the neighbor elements are listed, first for :math:`x` and then for :math:`y` component. They are computed only once.
 
 On the cells touching the lateral walls or bottom topography we use ghost cells (mirror reflections with respect to boundary edge). Their velocities are computed either as :math:`{\bf u}_{n}=-{\bf u}_{c}` or :math:`{\bf u}_{n}={\bf u}_{c}-2({\bf u}_{c}\cdot{\bf n}_{nc}){\bf n}_{nc}` for the no-slip or free-slip cases respectively. Here :math:`n` is the index of the ghost cell, and :math:`{\bf n}_{nc}` is the vector of unit normal to the edge between cells :math:`c` and :math:`n`. Note that filing ghost cells takes additional time, but allows using matrices :math:`g_{cn}^x` and :math:`g_{cn}^y` related to the surface cells only. Otherwise separate matrices will be needed for each layer. Note also that ghost cells are insufficient to implement the free-slip condition. In addition, the tangent component of viscous stress should be eliminated directly.
 
@@ -69,7 +69,7 @@ Flux divergence takes fluxes defined at boundaries of scalar control volume (and
 .. math::
    A_{kv}(\nabla\cdot {\bf F})_vh_v=\sum_{e\in E(v)}\sum_{c\in C(e)}{\bf F}_ch_c\cdot {\bf n}_{ec}d_{ec},
 
-where :math:`{\bf n}_{ec}` is the outer normal to control volume :math:`v`. Clearly, if :math:`v` is the first vertex in the list :math:`v(e)`, :math:`{\bf n}_{ec}d_{ec}=-{\bf k}\times{\bf d}_{ec}` if :math:`c` is the first in the list :math:`c(e)` (signs are changed accordingly in other cases). While these rules may sound difficult to memorize, in practice computations are done in a cycle over edges, in which case signs are obvious.
+where :math:`{\bf n}_{ec}` is the outer normal to control volume :math:`v`. Clearly, if :math:`v` is the first vertex in the set :math:`v(e)`, :math:`{\bf n}_{ec}d_{ec}=-{\bf k}\times{\bf d}_{ec}` if :math:`c` is the first in the set :math:`c(e)` (signs are changed accordingly in other cases). While these rules may sound difficult to memorize, in practice computations are done in a cycle over edges, in which case signs are obvious.
 
 In contrast to the scalar gradient operator, the operator of divergence depends on the layer (because of bottom topography), which is one of the reasons why it is not stored in advance. Besides, except for the simplest cases such as :math:`\mathbf{F}=\mathbf{u}`, the fluxes :math:`{\bf F}` involve estimates of the scalar quantity being transported. Computing these estimates requires a cycle over edges in any case, so there would be no economy even if the matrices of the divergence operator were introduced.
 
@@ -82,7 +82,7 @@ Velocity curl takes velocities at cells and returns the relative vorticity at ve
 .. math::
    A_{kv}\int_v(\nabla\times{\bf u})\cdot {\bf k}dS=\sum_{e\in E(v)}\sum_{c\in C(e)}{\bf u}_c\cdot{\bf t}_{ec}d_{ec},
 
-where :math:`{\bf t}_{ec}` is the unit vector along :math:`{\bf d}_{ec}` oriented so as to make an anticlockwise turn around vertex :math:`v`. If :math:`v` is the first in the list :math:`v(e)` and :math:`c` is the first in the list :math:`c(e)`,  :math:`{\bf t}_{ec}d_{ec}={\bf d}_{ec}`. This operator also depends on the layer and is not stored.
+where :math:`{\bf t}_{ec}` is the unit vector along :math:`{\bf d}_{ec}` oriented so as to make an anticlockwise turn around vertex :math:`v`. If :math:`v` is the first in the set :math:`v(e)` and :math:`c` is the first in the set :math:`c(e)`,  :math:`{\bf t}_{ec}d_{ec}={\bf d}_{ec}`. This operator also depends on the layer and is not stored.
 
 Mimetic properties
 ------------------
@@ -107,7 +107,9 @@ and use them to compute the divergence of horizontal momentum flux:
 .. math::
    A_c(\nabla\cdot(h{\bf u u}))_c=\sum_{e\in E(c)}l_e(\sum_{v\in V(e)}{\bf n}_e\cdot{\bf u}_vh_v)(\sum_{v\in V(e)}{\bf u}_v/4).
 
-Here :math:`{\bf n}_e` is the external normal and :math:`l_e{\bf n}_e=-{\bf k}\times{\bf l}_e` if :math:`c` is the first one in the list :math:`c(e)`. Since the horizontal velocity appears as the product with the thickness, the expressions here can be rewritten in terms of transports :math:`{\bf U}={\bf u}h^*`.
+Here :math:`{\bf n}_e` is the external normal and :math:`l_e{\bf n}_e=-{\bf k}\times{\bf l}_e` if :math:`c` is the first one in the set :math:`c(e)`. Since the horizontal velocity appears as the product with the thickness, the expressions here can be rewritten in terms of transports :math:`{\bf U}={\bf u}h^*`.
+
+The fluxes through the top and bottom faces are computed with :math:`w_c=\sum_{v\in V(c)}w_v/3` using either the second or fourth order centered, or high-order upwind algorithms.
 
 Flux form relying on scalar control volumes
 -------------------------------------------
@@ -127,7 +129,6 @@ for the top surface, and similarly for the bottom one. The estimate of :math:`{\
 
 This option of momentum advection is special in the sense that the continuity is treated here in the same way as for the scalar quantities.
 
-The fluxes through the top and bottom faces are computed with :math:`w_c=\sum_{v\in V(c)}w_v/3` using either the second or fourth order centered, or high-order upwind algorithms.
 
 Vector-invariant form
 =====================
@@ -148,7 +149,7 @@ The gradient of kinetic energy should be computed in the same way as the pressur
 .. math::
    A_{v}{\bf u}^2_v=\sum_{c\in \overline C(v)}A_c{\bf u}^2_c/3.
 
-The vertical part follows (\ref{eq:mom_vei}),
+The vertical part follows :eq:`eq_mom_vei`,
 
 .. math::
    (w\partial_z{\bf u})^t_{c}=2({\bf u}_{(k-1)c}-{\bf u}_{kc})/(h_{(k-1)c}+h_{kc})\sum_{v(c)}w_{kv}/3
@@ -162,7 +163,7 @@ Horizontal viscosity operators
 
 Because the cell placement of velocities, there are more velocity degrees of freedom than needed for vertex scalars. This leads to spurious grid-scale oscillations, and the task of horizontal viscosity operator is to eliminate them.
 
-The derivatives of horizontal velocity can be estimated at cell locations and then averaged to edges of triangles enabling computation of the viscous stress tensor :math:`\sigma_{ij}=\nu_hs_{ij}`, :math:`s_{ij}=(\partial_iu_j+\partial_ju_i)/2`, where the indices :math:`i,j` imply the horizontal directions, :math:`s_{ij}` is the strain rate tensor and :math:`\nu_h` is the harmonic horizontal viscosity coefficient. Its divergence will give the viscous force. This would be the standard way of introducing viscosity. It turns out that for cell velocities such a viscous force is insensitive to difference in the nearest velocities (see :cite:`DanilovKutsenko2019`). To eliminate grid-scale fluctuations FESOM is bound to use other discretizations.
+The derivatives of horizontal velocity can be estimated at cell locations and then averaged to edges of triangles enabling computation of the viscous stress tensor :math:`\sigma_{ij}=\nu_hs_{ij}`, :math:`s_{ij}=(\partial_iu_j+\partial_ju_i)/2`, where the indices :math:`i,j` imply the horizontal directions, :math:`s_{ij}` is the strain rate tensor and :math:`\nu_h` is the harmonic horizontal viscosity coefficient. Its divergence will give the viscous force. This would be the standard way of introducing viscosity. It turns out that for cell velocities such a viscous force is insensitive to the difference in the nearest velocities (see :cite:`DanilovKutsenko2019`). To eliminate grid-scale fluctuations FESOM is bound to use other discretizations.
 
 FESOM relies on a simplified stresses :math:`\sigma_{ij}=\nu_h\partial_iu_j`. As discussed by :cite:`Griffiesbook`, their divergence still ensures energy dissipation, but is nonzero for solid-body rotations if :math:`\nu_h` is variable. In spite of this drawback, using the simplified form is much more convenient for numerical reasons: since the divergence of stresses reduces to fluxes over vertical faces of triangular prisms, only contraction of stresses with normal vector appears, i.e., :math:`\nu_hn_i\partial_iu_j`, which is the derivative in the direction of :math:`{\bf n}`.
 
@@ -175,7 +176,7 @@ FESOM relies on a simplified stresses :math:`\sigma_{ij}=\nu_h\partial_iu_j`. As
    (D_{u}\mathbf{u})_cA_ch_c=\int_c\nabla\cdot(\nu_h\nabla\mathbf{u})h_cdS_c=\sum_{e\in E(c)}l_eh_e\mathbf{n}_e\cdot(\nu_h\nabla\mathbf{u})_e.
    :label: eq_viscL1
 
-The operator :math:`D_{uh}` appearing in :eq:eq_mom_fl will only differ by the absence of :math:`h_c` on the lhs, and will not be written separately.
+The operator :math:`D_{uh}` appearing in :eq:`eq_mom_fl` will only differ by the absence of :math:`h_c` on the lhs, and will not be written separately.
 
 Let :math:`n` be the cell sharing edge :math:`e` with cell :math:`c`. We formally write for the edge normal vector :math:`{\bf n}_e={\bf r}_{cn}/|{\bf r}_{cn}|+({\bf n}-{\bf r}_{cn}/|{\bf r}_{cn}|)`, where :math:`{\bf r}_{cn}={\bf d}_{en}-{\bf d}_{ec}` is the vector connecting the centroids of cells :math:`c` and :math:`n`. Then
 
@@ -205,7 +206,7 @@ In this case :math:`D_{u}` with :math:`\nu_h=1` is applied to :math:`\mathbf{B}`
 Selection of viscosity coefficient
 ==================================
 
-:cite:`FoxKemperMenemenlis2008` review common recipes for the viscosity coefficient and provide necessary references. Below we list the options available in FESOM. Then can be used with both harmonic and biharmonic operators as explained above.
+:cite:`FoxKemperMenemenlis2008` review common recipes for the viscosity coefficient and provide necessary references. Below we list the options available in FESOM. They can be used with both harmonic and biharmonic operators as explained above.
 
 
 - **Simple viscosity**
@@ -225,7 +226,7 @@ Selection of viscosity coefficient
   .. math::
      (\nu_h)_c=C_{Leith}(A_c/\pi^2)^{3/2}(|\nabla \omega|+C_{div}|\nabla\nabla\cdot\mathbf{u}|).
 
-  Here :math:`C_{Leith}` and :math:`C_{div}` are dimensionless factors of order one. The term with :math:`C_{div}` was added by :cite:`FoxKemperMenemenlis2008` the entire construction is called the modified Leith viscosity. Here vorticity and divergence should be computed first at vertices. Then their scalar gradients are estimated, giving values at cells.
+  Here :math:`C_{Leith}` and :math:`C_{div}` are dimensionless factors of order one. The term with :math:`C_{div}` was added by :cite:`FoxKemperMenemenlis2008`. The entire construction is called the modified Leith viscosity. Here vorticity and divergence should be computed first at vertices. Then their scalar gradients are estimated, giving values at cells.
 
 Note that the Smagorinsky and (modified) Leith viscosities rely on additional computations which take time. Viscosities are computed at :math:`c` points and averaged to edges whenever needed.
 

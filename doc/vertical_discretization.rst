@@ -3,7 +3,7 @@
 Vertical discretization: Layer thicknesses and layer equations
 **************************************************************
 
-FESOM2 uses Arbitrary Lagrangian Eulerian (ALE) vertical coordinate. This implies that level surfaces are allowed to move. ALE vertical coordinate on its own only the framework enabling moving level surfaces. The way how they are moving depend on one's particular goal and may require additional algorithmic steps. Two limiting cases obviously include the case of fixed :math:`z`-levels and the case when levels are isopycnal surfaces. At present only vertical coordinates that slightly deviate from :math:`z`-surfaces are supported in FESOM, but many other options will follow.
+FESOM2 uses Arbitrary Lagrangian Eulerian (ALE) vertical coordinate. This implies that level surfaces are allowed to move. ALE vertical coordinate on its own is only the framework enabling moving level surfaces. The way how they are moving depends on one's particular goal and may require additional algorithmic steps. Two limiting cases obviously include the case of fixed :math:`z`-levels and the case when levels are isopycnal surfaces. At present only vertical coordinates that slightly deviate from :math:`z`-surfaces are supported in FESOM, but many other options will follow.
 
 The implementation of ALE vertical coordinate in FESOM2 basically follows  :cite:`Ringler2013`. An alternative approach, used by MOM6, see, e.g., :cite:`Adcroft_Hallberg_2006` :cite:`Adcroft2019`, is in the exploratory phase.
 
@@ -11,7 +11,7 @@ The essential step toward the ALE vertical coordinate lies in confining equation
 
 - Introduce layer thicknesses :math:`h_k=h_k(x,y,t)`, where :math:`k=1:K` is the layer index and :math:`K` the total number of layers. They are functions of the horizontal coordinates and time in a general case. Each layer consists of prisms defined by the surface mesh but partly masked by bottom topography.
 
-- Layers communicate via the transport velocities :math:`w_{kv}` through the top and bottom boundaries of the prisms. The transport velocities are the differences between the physical velocities in the direction normal to the layer interfaces and the velocities due to the motion of the interfaces. These velocities are defined at the interfaces (the yellow points in :numref:`vertical`. For layer :math:`k` the top interface has index :math:`k` and the bottom one is :math:`k+1`. Note that :math:`w_{kv}` coincides with the vertical velocity only if the level surfaces are flat.
+- Layers communicate via the transport velocities :math:`w_{kv}` through the top and bottom boundaries of the prisms. The transport velocities are the differences between the physical velocities in the direction normal to the layer interfaces and the velocities due to the motion of the interfaces. These velocities are defined at the interfaces (the yellow points in :numref:`vertical`). For layer :math:`k` the top interface has index :math:`k` and the bottom one is :math:`k+1`. Note that :math:`w_{kv}` coincides with the vertical velocity only if the level surfaces are flat.
 
 - All other quantities - horizontal velocities :math:`{\bf u}`, temperature :math:`T`, salinity :math:`S` and pressure :math:`p` are defined at mid-layers. Their depths will be denoted as :math:`Z_k`, and the notation :math:`z_k` is kept for the depths of mesh levels (the layer interfaces). They are functions of horizontal coordinates and time in a general case.
 
@@ -60,7 +60,7 @@ The right hand side of :eq:`eq_tracer` contains the 3 by 3 diffusivity tensor :m
   with :math:`p_a` the atmospheric pressure, :math:`\rho` the deviation of density from its reference value :math:`\rho_0`, and :math:`P` is the variable hydrostatic pressure due to :math:`\rho`. The pressure gradient in continuous equations :eq:`eq_cmom` has to be computed at constant :math:`z`. The model levels deviate from surfaces :math:`z=\rm{const}`. The term :math:`g\rho\nabla Z`, appearing together with the horizontal pressure gradient in :eq:`eq_mom_fl` compensates for the deviation. The quantity :math:`Z` appearing in this term is the :math:`z`-coordinate of the midplane of the layer with the thickness :math:`h`.
 
 .. note::
-   Although :math:`\nabla p+g\rho\nabla Z` gives a formally correct estimate of pressure gradient at constant :math:`z`, the errors of discretization of the two terms in this expression become an issue if level surfaces deviate from :math:`z`-surfaces. They are known as pressure gradient errors and require special care. FESOM2 will follow the finite-volume algorithms of pressure gradient force that follows :cite:`Engwirda2017` but is adapted to the triangular prisms of FESOM mesh. This work is scheduled for 2020.
+   Although :math:`\nabla p+g\rho\nabla Z` gives a formally correct estimate of pressure gradient at constant :math:`z`, the errors of discretization of the two terms in this expression become an issue if level surfaces deviate from :math:`z`-surfaces. They are known as pressure gradient errors and require special care.  FESOM will propose a selection of known algorithms, including the finite-volume algorithms of pressure gradient force that follows :cite:`Engwirda2017` but is adapted to the triangular prisms of FESOM mesh.
 
 - Instead of using the flux form of momentum equation :eq:`eq_mom_fl` representing momentum balance in the layer one can work without layer integration. Of particular interest is the vector-invariant form written as
 
@@ -75,7 +75,7 @@ The right hand side of :eq:`eq_tracer` contains the 3 by 3 diffusivity tensor :m
 
   was used.
 
-- The second term on the lhs of :eq:`eq_mom_vei` includes division and multiplication with the layer thickness, and in doing so, it introduces the layer potential vorticity (PV), :math:`q=(\omega+f)/h` and its transport :math:`{\bf u}h`. The layer thickness formally drops out from the equation :eq:`eq_mom_vei` which is still continuous in the horizontal direction. However, in the discrete case, the location of vorticity points (vertices) and velocity points is different. By keeping separate $h$ the equation will then operate on the same horizontal transports as the thickness equations. This is the prerequisite for developing discretizations that conserve potential vorticity.
+- The second term on the lhs of :eq:`eq_mom_vei` includes division and multiplication with the layer thickness, and in doing so, it introduces the layer potential vorticity (PV), :math:`q=(\omega+f)/h` and its transport :math:`{\bf u}h`. The layer thickness formally drops out from the equation :eq:`eq_mom_vei` which is still continuous in the horizontal direction. However, in the discrete case, the location of vorticity points (vertices) and velocity points is different. By keeping separate :math:`h` the equation will then operate on the same horizontal transports as the thickness equations. This is the prerequisite for developing discretizations that conserve potential vorticity.
 
 - One more form is possible where the vector-invariant representation is not used
 
