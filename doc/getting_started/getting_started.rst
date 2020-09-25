@@ -11,7 +11,7 @@ TL;DR version for supported HPC systems
 Supported systems are: generic ``ubuntu``, ``ollie`` at AWI, ``mistral`` at DKRZ, ``JURECA`` at JSC, ``HLRN``, ``Hazel Hen``, ``Marinostrum 4`` at BSC. During configuration the system will be recognised and apropriate environment variables and compiler options should be used.
 ::
 
-    git clone https://gitlab.dkrz.de/FESOM/fesom2.git
+    git clone https://github.com/FESOM/fesom2.git
     cd fesom2
     bash -l configure.sh
 
@@ -31,10 +31,9 @@ after that one has to adjust the run script for the target sustem and run it:
 Detailed steps of compiling and runing the code
 ===============================================
 
-First thing is to checkout FESOM 2 code from the repository. The code is developed in private GitLab repository at DKRZ (`<https://gitlab.dkrz.de/FESOM/fesom2/>`_), but there is a public version `available on GitHub`_. It is simple to choose from the two. If you just want to try out FESOM2 or use the latest stable version, use GitHub and skip the rest of the paragraph. If you would like to participate in model development or need the bleeding edge code state, the GitLab on DKRZ is your choice. To join the development you have to have an active DKRZ account (more information on how to register here_). Before your account can be added to the members of the project you have to at least once log in to `<https://gitlab.dkrz.de/>`_ with your DKRZ account so that it appears in the GitLab data base. To be added as a member of the FESOM project on GitLab you have to send an email to Dmitry Sidorenko (dmitry.sidorenko@awi.de) with the request. Please make sure that you are able to login to `<https://gitlab.dkrz.de/>`_ before sending the request.
+First thing is to checkout FESOM2 code from the repository. The code is developed in open repository on GitHub_. 
 
-.. _available on GitHub: https://github.com/FESOM/fesom2/
-.. _here: https://www.dkrz.de/up/my-dkrz/getting-started/account/DKRZ-user-account
+.. _GitHub: https://github.com/FESOM/fesom2/
 
 Build model executable with Cmake
 ---------------------------------
@@ -45,11 +44,6 @@ Clone the GitHub repository with a git command:
 
     git clone https://github.com/FESOM/fesom2.git
 
-or GitLab repository:
-
-::
-
-    git clone https://gitlab.dkrz.de/FESOM/fesom2.git
 
 The repository contains model code and two additional libraries: `Metis` (domain partitioner) and `Parms` (solver), necessary to run FESOM2. To build FESOM2 executable one have to compile Parms library and the code of the model (`src` folder). In order to build executable that is used for model domain partitioning (distribution of the model mesh between CPUs) one have to compile `Metis` library and also some code located in the src directory (see :ref:`partitioning`). Building of the model executable and the partitioner is usually done automatically with the use of CMake. If you going to build the code not on one of the supported platforms (ollie, DKRZ, HLRN, and HAZELHEN, general Ubuntu), you might need to do some (usually small) modifications described in `Adding new platform for compilation`_ section.
 
