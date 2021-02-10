@@ -18,12 +18,19 @@ The current Icepack version implemented in FESOM2 is Icepack 1.2.1. To acknowled
 Implementation of Icepack in FESOM2
 ===================================
 
-Icepack–the column physics package of the sea-ice model CICE–is a collection of physical parameterizations that account for thermodynamic and mechanic sub-grid processes not explicitly resolved by the hosting sea-ice model, in our case FESOM2. The modular implementation of Icepack allows the users to vary substantially the complexity of the sea-ice model, with the possibility of choosing between several schemes and a broad set of active and passive tracers that describe the sea-ice state. Icepack v1.2.1 has been implemented in FESOM2 and can be used as an alternative to the standard FESIM thermodynamic module. As the standard FESIM implementation, the Icepack column-physics subroutines run every ocean time step. All the Icepack variables are defined directly on the nodes of the FESOM2 mesh, ensuring an optimal consistency between the ocean and the sea-ice components of the model. The inclusion of Icepack in FESOM2 required a revision of the calling sequence within the sea-ice model, which now follows that of the CICE model as illustrated in Fig. :numref:`call_seq`.
+Icepack–the column physics package of the sea-ice model CICE–is a collection of physical parameterizations that account for thermodynamic and mechanic sub-grid processes not explicitly resolved by the hosting sea-ice model, in our case FESOM2. The modular implementation of Icepack allows the users to vary substantially the complexity of the sea-ice model, with the possibility of choosing between several schemes and a broad set of active and passive tracers that describe the sea-ice state. Icepack v1.2.1 has been implemented in FESOM2 and can be used as an alternative to the standard FESIM thermodynamic module. As the standard FESIM implementation, the Icepack column-physics subroutines run every ocean time step. All the Icepack variables are defined directly on the nodes of the FESOM2 mesh, ensuring an optimal consistency between the ocean and the sea-ice components of the model. The inclusion of Icepack in FESOM2 required a revision of the calling sequence within the sea-ice model, which now follows that of the CICE model as illustrated in :numref:`call_seq`.
 
 .. _call_seq:
 .. figure:: img/call_seq.png
 
-   Calling sequences of the Standard FESOM2 and FESOM2-Icepack implementations.]{Schematic describing the calling sequences of the Standard FESOM2 and FESOM2-Icepack implementations.
+   Schematic describing the calling sequences of the Standard FESOM2 and FESOM2-Icepack implementations.
 
-Technical aspects of this implementation
-========================================
+Technical aspects of the implementation
+=======================================
+
+Frequently asked questions
+==========================
+
+**Is FESOM2 slower when run with Icepack?**
+
+Yes, the model integration is slower for two reasons: 1. The sea ice subgrid parameterizations are more complex compared to the standard FESIM. 2. Much more sea-ice tracers need to be advected. Overall, the sea ice component of FESOM2 becomes approximately four times slower with Icepack. Including additional output related to a more complex sea ice description can also contribute to deteriorating the model performances.    
