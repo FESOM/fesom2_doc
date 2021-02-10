@@ -19,7 +19,7 @@
 
 project = 'fesom2'
 copyright = '2019, FESOM2 team'
-author = u'Sergey Danilov, Dmitry Sidorenko, Nikolay Koldunov, Patrick Scholz, Qiang Wang, Thomas Rackow and Helge Goessling'
+author = u'Sergey Danilov, Dmitry Sidorenko, Nikolay Koldunov, Patrick Scholz, Qiang Wang, Thomas Rackow, Helge Goessling and Lorenzo Zampieri'
 
 # The full version, including alpha/beta/rc tags
 release = '0.1'
