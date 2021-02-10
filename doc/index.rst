@@ -9,7 +9,7 @@ FESOM2 documentation
 Authors
    -------
 
-   Sergey Danilov, Dmitry Sidorenko, Nikolay Koldunov, Patrick Scholz, Qiang Wang, Thomas Rackow and Helge Goessling
+   Sergey Danilov, Dmitry Sidorenko, Nikolay Koldunov, Patrick Scholz, Qiang Wang, Thomas Rackow, Helge Goessling and Lorenzo Zampieri
 
 
 .. toctree::
