@@ -21,6 +21,7 @@ Authors
    ocean_configuration/ocean_configuration
    forcing_configuration
    seaice_configuration
+   icepack_in_fesom
    data_processing/data_processing
    geometry
    meshes/meshes
@@ -32,7 +33,7 @@ Authors
    subcycling_instead_solver
    isoneutral_diffusion_triangular_prisms
    zreferences
-   icepack_in_fesom
+   
 
 Proposed structure:
 

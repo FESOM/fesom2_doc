@@ -1,7 +1,7 @@
 .. _chap_seaice_configuration:
 
-Sea ice configuration (namelist.ice)
-************************************
+Standard sea ice configuration (namelist.ice)
+*********************************************
 
 Sections of the namelist
 ========================
