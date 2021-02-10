@@ -13,7 +13,7 @@ Icepack is licensed for use through the CICE Consortium. Therefore, we encourage
 .. important::  
    Icepack releases are “functional releases” in the sense that the code runs, does not crash, passes various tests, and requires further work to establish its scientific validity. In general, users are not encouraged to use any of the CICE Consortium’s model configurations to obtain “scientific” results. The test configurations are useful for model development, but sea ice models must be evaluated from a physical standpoint in a coupled system because simplified configurations do not necessarily represent what is actually happening in the fully coupled system that includes interactive ocean and atmosphere components.
 
-To acknowlege the development work behind Icepack in FESOM2 cite 
+To acknowlege the development work behind the implementation of Icepack in FESOM2 please cite :cite:`Zampieri2021` and :cite: `Hunke2020`.
 
 The Icepack sea ice column physics package
 ==========================================
