@@ -22,6 +22,7 @@ Icepack–the column physics package of the sea-ice model CICE–is a collection
 
 .. _call_seq:
 .. figure:: img/call_seq.png
+
    Calling sequences of the Standard FESOM2 and FESOM2-Icepack implementations.]{Schematic describing the calling sequences of the Standard FESOM2 and FESOM2-Icepack implementations.
 
 Technical aspects of this implementation
