@@ -32,6 +32,7 @@ Authors
    subcycling_instead_solver
    isoneutral_diffusion_triangular_prisms
    zreferences
+   icepack_in_fesom
 
 Proposed structure:
 
