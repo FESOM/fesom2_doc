@@ -20,6 +20,9 @@ Icepack is licensed for use through the CICE Consortium. Therefore, we encourage
 .. important::  
    Icepack releases are “functional releases” in the sense that the code runs, does not crash, passes various tests, and requires further work to establish its scientific validity. In general, users are not encouraged to use any of the CICE Consortium’s model configurations to obtain “scientific” results. The test configurations are useful for model development, but sea ice models must be evaluated from a physical standpoint in a coupled system because simplified configurations do not necessarily represent what is actually happening in the fully coupled system that includes interactive ocean and atmosphere components.
 
+How to cite
+"""""""""""
+
 The current Icepack version implemented in FESOM2 is Icepack 1.2.1. To acknowledge the development work behind the implementation of Icepack in FESOM2 please cite `Zampieri et al. (2021) <https://search.proquest.com/docview/2469422827?fromopenview=true&pq-origsite=gscholar>`_, part of which used to compile this documentation, and `Hunke et al. (2020) <https://zenodo.org/record/3712299#.Xvn3DPJS9TZ>`_, in addition to the usual FESOM2 papers.
 
 Implementation
@@ -37,7 +40,7 @@ Section &env_nml
 Section &grid_nml
 """"""""""""""""
 
-- **kcatbound** Specifies which criteria is followed to discretize the Ice Thickness Distribution (ITD). Setting **kcatboundequal** to 0, 1, or 3 gives lower thickness boundaries for any number of thickness categories. Setting **kcatboundequal=2** corresponds to the World Meteorological Organization ITD classification, and it is compatible only with **nicecat=5,6,7**.
+- **kcatbound** Specifies which criteria is followed to discretize the Ice Thickness Distribution (ITD). Setting **kcatbound** equal to 0, 1, or 3 gives lower thickness boundaries for any number of thickness categories. Setting **kcatbound=2** corresponds to the World Meteorological Organization ITD classification, and it is compatible only with **nicecat=5,6,7**.
 
 Section &tracer_nml
 """""""""""""""""""
@@ -66,14 +69,21 @@ The next step is to activate the Icepack flag in ``CMakeLists.txt`` by setting *
    bash -l configure.sh   
 The compilation of this FESOM2 version with the ESM Tools is not yet supported.
 
+Running the model
+=================
+
+Running FESOM2 with Icepack is not different from the standard FESOM. Make sure to add the ``namelist.icepack`` file to your ``work`` directory. Two diagnostic files are generated in addition to the standard ``fesom2.0.out``. ``icepack.diagnostics`` contains information about the Icepack configuration such as the value of some parameters, the tracers employed, and the boundaries of the ITD. ``icepack.errors`` possibly contains diagnostic information about errors in Icepack that can occur during the model run. 
+
+The model output is saved in the result folder together with the standard ocean output. Note that outputting sea ice information using the standard FESIM variables (**a_ice**,**m_ice**,**m_snow**, etc.) is still possible also when using Icepack. These variables are consistent with the Icepack sea ice description (**a_ice**=**aice**,**m_ice**=**vice**,**m_snow**=**vsno**). An additional restart file is generated for Icepack, ``fesom.yyyy.icepack.restart.nc``, and it is written with the same frequency as ``fesom.yyyy.oce.restart.nc`` and ``fesom.yyyy.ice.restart.nc``.
+
 Code structure
 ==============
 
-Communication between Icepack and FESOM2
-========================================
+Icepack drivers
+"""""""""""""""
 
-Running the model
-=================
+Communication between Icepack and FESOM2
+""""""""""""""""""""""""""""""""""""""""
 
 .. attention::
    Restarting the model after changing the number of ice thickness classes, the vertical discretization of ice and/or snow, and the number of passive tracers is currently not possible. Also, changing the thermodynamic and melt pond schemes during the run is not recommended. In these cases consider a cold start and repeat your spinup run.       
@@ -95,7 +105,7 @@ Yes, in principle it is possible to run Icepack with a single thickness class an
 
 **Can I use Icepack in coupled configurations?**
 
-No, at the moment FESOM2 with Icepack has not been coupled with atmospheric models. A coupling with OpenIFS is planned.
+No, at the moment FESOM2 with Icepack has not been coupled with atmospheric models. A coupling with OpenIFS is planned and might be released in the upcoming months.
 
 **Can I use Icepack with data assimilation?**
 
