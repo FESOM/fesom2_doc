@@ -76,6 +76,9 @@ Running FESOM2 with Icepack is not different from the standard FESOM. Make sure 
 
 The model output is saved in the result folder together with the standard ocean output. Note that outputting sea ice information using the standard FESIM variables (**a_ice**,**m_ice**,**m_snow**, etc.) is still possible also when using Icepack. These variables are consistent with the Icepack sea ice description (**a_ice**=**aice**,**m_ice**=**vice**,**m_snow**=**vsno**). An additional restart file is generated for Icepack, ``fesom.yyyy.icepack.restart.nc``, and it is written with the same frequency as ``fesom.yyyy.oce.restart.nc`` and ``fesom.yyyy.ice.restart.nc``.
 
+.. attention::
+   Restarting the model after changing the number of ice thickness classes, the vertical discretization of ice and/or snow, and the number of passive tracers is currently not possible. Also, changing the thermodynamic and melt pond schemes during the run is not recommended. In these cases consider a cold start and repeat your spinup run.
+
 Code structure
 ==============
 
@@ -84,9 +87,6 @@ Icepack drivers
 
 Communication between Icepack and FESOM2
 """"""""""""""""""""""""""""""""""""""""
-
-.. attention::
-   Restarting the model after changing the number of ice thickness classes, the vertical discretization of ice and/or snow, and the number of passive tracers is currently not possible. Also, changing the thermodynamic and melt pond schemes during the run is not recommended. In these cases consider a cold start and repeat your spinup run.       
 
 Frequently asked questions
 ==========================
