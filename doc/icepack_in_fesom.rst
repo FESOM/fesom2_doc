@@ -97,12 +97,12 @@ Icepack drivers
 
 - ``icedrv_main.F90``
 - ``icedrv_set.F90``
-– ``icedrv_allocate.F90``
+- ``icedrv_allocate.F90``
 - ``icedrv_init.F90``
 - ``icedrv_step.F90``
 - ``icedrv_advection.F90``
-– ``icedrv_transfer.F90``
-– ``icedrv_io.F90``
+- ``icedrv_transfer.F90``
+- ``icedrv_io.F90``
 - ``icedrv_kinds.F90``
 - ``icedrv_system.F90``
 - ``icedrv_constants.F90``
@@ -110,7 +110,7 @@ Icepack drivers
 Communication between Icepack and FESOM2
 """"""""""""""""""""""""""""""""""""""""
 
-The Icepack environment is separated from the rest of FESOM2 and consists of a single big module with multiple submodules. Almost all the variables are private and are not visible by the FESOM2 code. The variables exchange between Icepack and FESOM2 takes place through the passing subroutines ``fesom_to_icepack``and ``icepack_to_fesom``.
+The Icepack environment is separated from the rest of FESOM2 and consists of a single big module with multiple submodules. Almost all the variables are private and are not visible by the FESOM2 code. The variables exchange between Icepack and FESOM2 takes place through the passing subroutines ``fesom_to_icepack`` and ``icepack_to_fesom``.
 
 Frequently asked questions
 ==========================
