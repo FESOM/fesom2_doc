@@ -15,17 +15,17 @@ Icepack–the column physics package of the sea-ice model CICE–is a collection
 
    Schematic describing the calling sequences of the Standard FESOM2 and FESOM2-Icepack implementations.
 
-Icepack is licensed for use through the CICE Consortium. Therefore, we encourage the FESOM2 userbase interested in the Icepack features to be aware of the `License <https://github.com/CICE-Consortium/Icepack/blob/master/LICENSE.pdf>`_ when working with this model configuration. We report here a disclaimer from the `Icepack website <https://github.com/CICE-Consortium/Icepack/wiki>`_:
+Icepack is licensed for use through the CICE Consortium. Therefore, we encourage the FESOM2 userbase interested in the Icepack features to be aware of the `License <https://github.com/CICE-Consortium/Icepack/blob/master/LICENSE.pdf>`_ when working with this model configuration. We report here a disclaimer from the `Icepack website <https://github.com/CICE-Consortium/Icepack/wiki>`_.
 
 .. important::  
    Icepack releases are “functional releases” in the sense that the code runs, does not crash, passes various tests, and requires further work to establish its scientific validity. In general, users are not encouraged to use any of the CICE Consortium’s model configurations to obtain “scientific” results. The test configurations are useful for model development, but sea ice models must be evaluated from a physical standpoint in a coupled system because simplified configurations do not necessarily represent what is actually happening in the fully coupled system that includes interactive ocean and atmosphere components.
 
-The current Icepack version implemented in FESOM2 is Icepack 1.2.1. To acknowledge the development work behind the implementation of Icepack in FESOM2 please cite `Zampieri et al. (2021) <https://search.proquest.com/docview/2469422827?fromopenview=true&pq-origsite=gscholar>`_:, part of which used to compile this documentation, and `Hunke et al. (2020) <https://zenodo.org/record/3712299#.Xvn3DPJS9TZ>`_:, in addition to the usual FESOM2 papers.
+The current Icepack version implemented in FESOM2 is Icepack 1.2.1. To acknowledge the development work behind the implementation of Icepack in FESOM2 please cite `Zampieri et al. (2021) <https://search.proquest.com/docview/2469422827?fromopenview=true&pq-origsite=gscholar>`_, part of which used to compile this documentation, and `Hunke et al. (2020) <https://zenodo.org/record/3712299#.Xvn3DPJS9TZ>`_, in addition to the usual FESOM2 papers.
 
 Implementation
 ==============
 
-The implementation of Icepack in FESOM2 is fully modular, meaning that the users are free to vary the configuration via namelist parameters. When Icepack is used, ``namelist.icepack`` controls all settings related to the sea ice subgrid parameterizations, thus overriding the content of ``namelist.ice``. The dynamics (EVP) and advection schemes are still controlled by the standard ``namelist.ice``. Below we describe some of the most important namelist parameters, while we recommend consulting the `official Icepack documentation <https://buildmedia.readthedocs.org/media/pdf/cice-consortium-icepack/icepack1.2.1/cice-consortium-icepack.pdf>`_: for a more comprehensive description.
+The implementation of Icepack in FESOM2 is fully modular, meaning that the users are free to vary the configuration via namelist parameters. When Icepack is used, ``namelist.icepack`` controls all settings related to the sea ice subgrid parameterizations, thus overriding the content of ``namelist.ice``. The dynamics (EVP) and advection schemes are still controlled by the standard ``namelist.ice``. Below we describe some of the most important namelist parameters, while we recommend consulting the `official Icepack documentation <https://buildmedia.readthedocs.org/media/pdf/cice-consortium-icepack/icepack1.2.1/cice-consortium-icepack.pdf>`_ for a more comprehensive description.
 
 Section &env_nml
 """"""""""""""""
@@ -37,7 +37,7 @@ Section &env_nml
 Section &grid_nml
 """"""""""""""""
 
-- **kcatbound** Specifies which criteria is followed to discretize the Ice Thickness Distribution (ITD). Setting **kcatboundequal** to 0, 1, or 3 gives lower thickness boundaries for any number of thickness categories. Setting **kcatboundequal=2** corresponds to World Meteorological Organization ITD classification, and it is compatible only with **nicecat=5,6,7**.
+- **kcatbound** Specifies which criteria is followed to discretize the Ice Thickness Distribution (ITD). Setting **kcatboundequal** to 0, 1, or 3 gives lower thickness boundaries for any number of thickness categories. Setting **kcatboundequal=2** corresponds to the World Meteorological Organization ITD classification, and it is compatible only with **nicecat=5,6,7**.
 
 Section &tracer_nml
 """""""""""""""""""
@@ -49,14 +49,25 @@ Section &nml_list_icepack
 
 It regulates the type, frequency, and precision of the output for Icepack variables. Most of the Icepack variables can be defined as average over the grid cell (e.g. **aice**: average sea ice area fraction – 2D variable), or separately for each thickness class (e.g. **aicen**: sea ice area fraction in each thickness class – 3D variable), with the ITD information saved as a vertical dimension in the netCDF file. At the moment, variables defined over multiple vertical layers are output in separated files. For example, in a model configuration with **n** sea ice vertical layers, activating the **qice** output stream will lead to **n** files where ``qice_i.fesom.yyyy.nc`` contains the sea ice enthalpy of the **i**-*th* vertical layer averaged over the ITD. Similarly, activating the **qicen** output stream will lead to **n** files where ``qicen_i.fesom.yyyy.nc`` contains the sea ice enthalpy of the **i**-*th* sea ice vertical layer for each thickness class.
 
+Compilation
+===========
+
+Compiling FESOM2 with Icepack is very easy if you are already used to the FESOM2 workflow. After cloning fesom2 from the GitHub repository, download the Icepack single column package:
+::
+
+   cd src/icepack_drivers/
+   bash -l download_icepack.sh
+The next step is to activate the Icepack flag in ``CMakeLists.txt`` by setting **USE_ICEPACK** from **OFF** to **ON**. At this point, you can proceed with the usual compilation via
+::
+
+   bash -l configure.sh   
+Compilation with the ESM Tools is not yet supported.
+
 Code structure
 ==============
 
 Communication between Icepack and FESOM2
 ========================================
-
-Compilation
-===========
 
 Running the model
 =================
