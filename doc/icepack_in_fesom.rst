@@ -30,6 +30,9 @@ Implementation
 
 The implementation of Icepack in FESOM2 is fully modular, meaning that the users are free to vary the configuration via namelist parameters. When Icepack is used, ``namelist.icepack`` controls all settings related to the sea ice subgrid parameterizations, thus overriding the content of ``namelist.ice``. The dynamics (EVP) and advection schemes are still controlled by the standard ``namelist.ice``. Below we describe some of the most important namelist parameters, while we recommend consulting the `official Icepack documentation <https://buildmedia.readthedocs.org/media/pdf/cice-consortium-icepack/icepack1.2.1/cice-consortium-icepack.pdf>`_ for a more comprehensive description.
 
+.. attention::
+   Icepack in FESOM2 is still in a testing phase and we cannot guarantee a bugfree code nor good scientific results.
+
 Namelist section &env_nml
 """""""""""""""""""""""""
 
@@ -52,13 +55,13 @@ Namelist section &nml_list_icepack
 
 It regulates the type, frequency, and precision of the output for Icepack variables. Most of the Icepack variables can be defined as average over the grid cell (e.g. **aice**: average sea ice area fraction – 2D variable), or separately for each thickness class (e.g. **aicen**: sea ice area fraction in each thickness class – 3D variable), with the ITD information saved as a vertical dimension in the netCDF file. At the moment, variables defined over multiple vertical layers are output in separated files. For example, in a model configuration with **n** sea ice vertical layers, activating the **qice** output stream will lead to **n** files where ``qice_i.fesom.yyyy.nc`` contains the sea ice enthalpy of the **i**-*th* vertical layer averaged over the ITD. Similarly, activating the **qicen** output stream will lead to **n** files where ``qicen_i.fesom.yyyy.nc`` contains the sea ice enthalpy of the **i**-*th* sea ice vertical layer for each thickness class.
 
-.. warning::
+.. attention::
    Increasing substantially the number of thickness classes and vertical layers can lead to numerical instabilities (very thin vertical layers), memory issues, very large output files, and finally to a substantial slow down of the model because of the high number of tracers that need to be advected.  
 
 Compatibility with FESOM2 configurations
 """"""""""""""""""""""""""""""""""""""""
 
-Icepack in FESOM2 is still in a testing phase and we cannot guarantee a bugfree code nor good scientific results. Icepack has been combined with few 
+In `Zampieri et al. (2020) <https://search.proquest.com/docview/2469422827?fromopenview=true&pq-origsite=gscholar>`_ the model was run with linear free surfaces (**which_ALE=’linfs’**), and other ALE coordinates have not been tested. In principle, Icepack should be independent of the scheme used to solve the sea ice dynamic. However, at the moment only the standard EVP is supported, while the mEVP and aEVP still show some strange behaviors. We are working on solving this issue as well as on testing further setups, and we will update this document as soon as progress is made.
 
 Compilation
 ===========
@@ -106,7 +109,7 @@ Yes, the model integration is slower for two reasons: 1. The sea ice subgrid par
 
 **Which EVP scheme should I use for Icepack?**
 
-In principle, Icepack should be independent of the scheme used to solve the sea ice dynamic. However, at the moment only the standard EVP is supported, while the mEVP and aEVP still show some strange behaviors. We are working on solving this issue and we will update this document as soon as progress is made.
+In principle, Icepack should be independent of the scheme used to solve the sea ice dynamics. However, at the moment only the standard EVP is supported, while the mEVP and aEVP still show some strange behaviors. We are working on solving this issue and we will update this document as soon as progress is made.
 
 **Can Icepack be configured as the standard FESIM?**
 
