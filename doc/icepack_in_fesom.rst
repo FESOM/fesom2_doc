@@ -100,31 +100,31 @@ Frequently asked questions
 ==========================
 
 Should I use Icepack for my simulations?
-"""
+""""""""""""""""""""""""""""""""""""""""
 
 It depends on your scientific questions. Icepack might be a good option if you are interested to It depends on your scientific questions. Icepack might be a good option if you are interested in sea ice processes in polar regions. In principle, the employment of Icepack should not negatively affect the ocean state but could make FESOM2 slower.
 
 Is FESOM2 slower when run with Icepack?
-"""
+"""""""""""""""""""""""""""""""""""""""
 
 Yes, the model integration is slower for two reasons: 1. The sea ice subgrid parameterizations are more complex compared to the standard FESIM. 2. Much more sea-ice tracers need to be advected. Overall, the sea ice component of FESOM2 becomes approximately four times slower with Icepack. Including additional output related to a more complex sea ice description can also contribute to deteriorating the model performances.    
 
 Which EVP scheme should I use for Icepack?
-"""
+""""""""""""""""""""""""""""""""""""""""""
 
 In principle, Icepack should be independent of the scheme used to solve the sea ice dynamics. However, at the moment only the standard EVP is supported, while the mEVP and aEVP still show some strange behaviors. We are working on solving this issue and we will update this document as soon as progress is made.
 
 Can Icepack be configured as the standard FESIM?
-"""
+""""""""""""""""""""""""""""""""""""""""""""""""
 
 Yes, in principle it is possible to run Icepack with a single thickness class and with the 0-layer thermodynamics. However, the results obtained during the testing phase with this configuration were not very convincing and they seemed not compatible with the standard FESOM2 results. More investigations are needed to understand the cause of this behavior, which is likely related to a different implementation of the thermodynamic processes in the model.   
 
 Can Icepack be used in coupled configurations?
-"""
+""""""""""""""""""""""""""""""""""""""""""""""
 
 No, at the moment FESOM2 with Icepack has not been coupled with atmospheric models. A coupling with OpenIFS is planned and might be released in the upcoming months.
 
 Can Icepack be used with data assimilation?
-"""
+"""""""""""""""""""""""""""""""""""""""""""
 
 No, at the moment FESOM2 with Icepack has not been equipped with data assimilation capabilities. 
