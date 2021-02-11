@@ -5,6 +5,9 @@ Icepack sea ice configuration
 
 This section describes the implementation of the Icepack sie ice column physics package in the FESOM2 model. The scope of the following paragraphs is to provide a practical guide to users interested in detailed simulations of the sea ice system with FESOM2, and not to describe the scientific features of Icepack. A detailed description of the sea ice parameterizations here implemented can be found on the website of the `CICE Consortium <https://github.com/CICE-Consortium/Icepack/wiki/Icepack-Release-Table>`_, which maintains and continuously develops this package. 
 
+.. attention::
+   The Icepack implementation in FESOM2 is still in a testing phase and we cannot guarantee a bugfree code nor good scientific results.
+
 General information
 ===================
 
@@ -29,9 +32,6 @@ Implementation
 ==============
 
 The implementation of Icepack in FESOM2 is fully modular, meaning that the users are free to vary the configuration via namelist parameters. When Icepack is used, ``namelist.icepack`` controls all settings related to the sea ice subgrid parameterizations, thus overriding the content of ``namelist.ice``. The dynamics (EVP) and advection schemes are still controlled by the standard ``namelist.ice``. Below we describe some of the most important namelist parameters, while we recommend consulting the `official Icepack documentation <https://buildmedia.readthedocs.org/media/pdf/cice-consortium-icepack/icepack1.2.1/cice-consortium-icepack.pdf>`_ for a more comprehensive description.
-
-.. attention::
-   Icepack in FESOM2 is still in a testing phase and we cannot guarantee a bugfree code nor good scientific results.
 
 Namelist section &env_nml
 """""""""""""""""""""""""
@@ -61,7 +61,7 @@ It regulates the type, frequency, and precision of the output for Icepack variab
 Compatibility with FESOM2 configurations
 """"""""""""""""""""""""""""""""""""""""
 
-In `Zampieri et al. (2020) <https://search.proquest.com/docview/2469422827?fromopenview=true&pq-origsite=gscholar>`_ the model was run with linear free surfaces (**which_ALE=’linfs’**), and other ALE coordinates have not been tested. In principle, Icepack should be independent of the scheme used to solve the sea ice dynamic. However, at the moment only the standard EVP is supported, while the mEVP and aEVP still show some strange behaviors. We are working on solving this issue as well as on testing further setups, and we will update this document as soon as progress is made.
+In `Zampieri et al. (2020) <https://search.proquest.com/docview/2469422827?fromopenview=true&pq-origsite=gscholar>`_ the model was run with linear free surfaces (**which_ALE=’linfs’**), and other ALE coordinates have not been tested. In principle, Icepack should be independent of the scheme used to solve the sea ice dynamics. However, at the moment only the standard EVP is supported, while the mEVP and aEVP still show some strange behaviors. We are working on solving this issue as well as on testing further setups, and we will update this document as soon as progress is made.
 
 Compilation
 ===========
