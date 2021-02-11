@@ -49,6 +49,9 @@ Section &nml_list_icepack
 
 It regulates the type, frequency, and precision of the output for Icepack variables. Most of the Icepack variables can be defined as average over the grid cell (e.g. **aice**: average sea ice area fraction – 2D variable), or separately for each thickness class (e.g. **aicen**: sea ice area fraction in each thickness class – 3D variable), with the ITD information saved as a vertical dimension in the netCDF file. At the moment, variables defined over multiple vertical layers are output in separated files. For example, in a model configuration with **n** sea ice vertical layers, activating the **qice** output stream will lead to **n** files where ``qice_i.fesom.yyyy.nc`` contains the sea ice enthalpy of the **i**-*th* vertical layer averaged over the ITD. Similarly, activating the **qicen** output stream will lead to **n** files where ``qicen_i.fesom.yyyy.nc`` contains the sea ice enthalpy of the **i**-*th* sea ice vertical layer for each thickness class.
 
+.. warning::
+   Increasing substantially the number of thickness classes and vertical layers can lead to numerical instabilities (very thin vertical layers), memory issues, very large output files, and finally to a substantial slow down of the model because of the high number of tracers that need to be advected.  
+
 Compilation
 ===========
 
@@ -61,7 +64,7 @@ The next step is to activate the Icepack flag in ``CMakeLists.txt`` by setting *
 ::
 
    bash -l configure.sh   
-Compilation with the ESM Tools is not yet supported.
+The compilation of this FESOM2 version with the ESM Tools is not yet supported.
 
 Code structure
 ==============
@@ -78,6 +81,10 @@ Running the model
 Frequently asked questions
 ==========================
 
+**Should I use Icepack for my simulations?**
+
+It depends on your scientific questions. Icepack might be a good option if you are interested to It depends on your scientific questions. Icepack might be a good option if you are interested in sea ice processes in polar regions. In principle, the employment of Icepack should not negatively affect the ocean state but could make FESOM2 slower.
+
 **Is FESOM2 slower when run with Icepack?**
 
 Yes, the model integration is slower for two reasons: 1. The sea ice subgrid parameterizations are more complex compared to the standard FESIM. 2. Much more sea-ice tracers need to be advected. Overall, the sea ice component of FESOM2 becomes approximately four times slower with Icepack. Including additional output related to a more complex sea ice description can also contribute to deteriorating the model performances.    
@@ -86,3 +93,10 @@ Yes, the model integration is slower for two reasons: 1. The sea ice subgrid par
 
 Yes, in principle it is possible to run Icepack with a single thickness class and with the 0-layer thermodynamics. However, the results obtained during the testing phase with this configuration were not very convincing and they seemed not compatible with the standard FESOM2 results. More investigations are needed to understand the cause of this behavior, which is likely related to a different implementation of the thermodynamic processes in the model.   
 
+**Can I use Icepack in coupled configurations?**
+
+No, at the moment FESOM2 with Icepack has not been coupled with atmospheric models. A coupling with OpenIFS is planned.
+
+**Can I use Icepack with data assimilation?**
+
+No, at the moment FESOM2 with Icepack has not been equipped with data assimilation capabilities. 
