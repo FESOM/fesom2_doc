@@ -90,11 +90,27 @@ The model output is saved in the result folder together with the standard ocean 
 Code structure
 ==============
 
+Icepack is a single column model and therefore its subroutines act on one grid cell. To implement this model in a host General Circulation Model (GCM), in our case FESOM2, additional code is needed to define an interface between the two to drive the Icepack subroutines. This interface is contained in the ``icedrv_*.F90`` files, which are part of the FESOM2 repository, and will be briefly described in the following section.
+
 Icepack drivers
 """""""""""""""
 
+- ``icedrv_main.F90``
+- ``icedrv_set.F90``
+– ``icedrv_allocate.F90``
+- ``icedrv_init.F90``
+- ``icedrv_step.F90``
+- ``icedrv_advection.F90``
+– ``icedrv_transfer.F90``
+– ``icedrv_io.F90``
+- ``icedrv_kinds.F90``
+- ``icedrv_system.F90``
+- ``icedrv_constants.F90``
+
 Communication between Icepack and FESOM2
 """"""""""""""""""""""""""""""""""""""""
+
+The Icepack environment is separated from the rest of FESOM2 and consists of a single big module with multiple submodules. Almost all the variables are private and are not visible by the FESOM2 code. The variables exchange between Icepack and FESOM2 takes place through the passing subroutines ``fesom_to_icepack``and ``icepack_to_fesom``.
 
 Frequently asked questions
 ==========================
@@ -109,10 +125,10 @@ Is FESOM2 slower when run with Icepack?
 
 Yes, the model integration is slower for two reasons: 1. The sea ice subgrid parameterizations are more complex compared to the standard FESIM. 2. Much more sea-ice tracers need to be advected. Overall, the sea ice component of FESOM2 becomes approximately four times slower with Icepack. Including additional output related to a more complex sea ice description can also contribute to deteriorating the model performances.    
 
-Which EVP scheme should I use for Icepack?
+Which EVP scheme should I use with Icepack?
 """"""""""""""""""""""""""""""""""""""""""
 
-In principle, Icepack should be independent of the scheme used to solve the sea ice dynamics. However, at the moment only the standard EVP is supported, while the mEVP and aEVP still show some strange behaviors. We are working on solving this issue and we will update this document as soon as progress is made.
+In principle, Icepack should be independent of the scheme used to solve the sea ice dynamics. However, at the moment only the standard EVP is supported, while the mEVP and aEVP still exhibit some strange behaviors. We are working on solving this issue and we will update this document as soon as progress is made.
 
 Can Icepack be configured as the standard FESIM?
 """"""""""""""""""""""""""""""""""""""""""""""""
