@@ -133,7 +133,7 @@ Frequently asked questions
 Should I use Icepack for my simulations?
 """"""""""""""""""""""""""""""""""""""""
 
-It depends on your scientific questions. Icepack might be a good option if you are interested to It depends on your scientific questions. Icepack might be a good option if you are interested in sea ice processes in polar regions. In principle, the employment of Icepack should not negatively affect the ocean state but could make FESOM2 slower.
+It depends on your scientific questions. Icepack might be a good option if you are interested in sea ice processes in polar regions. In principle, the employment of Icepack should not negatively affect the ocean state but could make FESOM2 slower.
 
 Is FESOM2 slower when run with Icepack?
 """""""""""""""""""""""""""""""""""""""
