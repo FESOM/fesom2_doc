@@ -9,7 +9,7 @@ FESOM2 documentation
 Authors
    -------
 
-   Sergey Danilov, Dmitry Sidorenko, Nikolay Koldunov, Patrick Scholz, Qiang Wang, Thomas Rackow and Helge Goessling
+   Sergey Danilov, Dmitry Sidorenko, Nikolay Koldunov, Patrick Scholz, Qiang Wang, Thomas Rackow, Helge Goessling and Lorenzo Zampieri
 
 
 .. toctree::
@@ -21,6 +21,7 @@ Authors
    ocean_configuration/ocean_configuration
    forcing_configuration
    seaice_configuration
+   icepack_in_fesom
    data_processing/data_processing
    geometry
    meshes/meshes
@@ -32,6 +33,7 @@ Authors
    subcycling_instead_solver
    isoneutral_diffusion_triangular_prisms
    zreferences
+   
 
 Proposed structure:
 
