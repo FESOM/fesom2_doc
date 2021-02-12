@@ -82,7 +82,7 @@ Running the model
 
 Running FESOM2 with Icepack is not different from the standard case. Make sure to add the ``namelist.icepack`` file to your ``work`` directory. Two diagnostic files are generated in addition to the standard ``fesom2.0.out``. ``icepack.diagnostics`` contains information about the Icepack configuration such as the value of some parameters, the tracers employed, and the boundaries of the ITD. ``icepack.errors`` possibly contains diagnostic information about errors in Icepack that can occur during the model run. Information about the running time are given in ``fesom2.0.out`` with the usual division in **dynamics**, **thermodynamics**, and **advection**.
 
-The model output is saved in the result folder together with the standard ocean output. Note that outputting sea ice information using the standard FESIM variables (**a_ice**,**m_ice**,**m_snow**, etc.) is still possible also when using Icepack. These variables are consistent with the Icepack sea ice description (**a_ice**=**aice**,**m_ice**=**vice**,**m_snow**=**vsno**). An additional restart file is generated for Icepack, ``fesom.yyyy.icepack.restart.nc``, and it is written with the same frequency as ``fesom.yyyy.oce.restart.nc`` and ``fesom.yyyy.ice.restart.nc``.
+The model output is saved in the result folder together with the standard ocean output. Note that outputting sea ice information using the standard FESIM variables (**a_ice**, **m_ice**, **m_snow**, etc.) is still possible also when using Icepack. These variables are consistent with the Icepack sea ice description (**a_ice** = **aice**, **m_ice** = **vice**, **m_snow** = **vsno**). An additional restart file is generated for Icepack, ``fesom.yyyy.icepack.restart.nc``, and it is written with the same frequency as ``fesom.yyyy.oce.restart.nc`` and ``fesom.yyyy.ice.restart.nc``.
 
 .. attention::
    Restarting the model after changing the number of ice thickness classes, the vertical discretization of ice and/or snow, and the number of passive tracers is currently not possible. Also, changing the thermodynamic and melt pond schemes during the run is not recommended. In these cases consider a cold start and repeat your spinup run.
@@ -90,21 +90,31 @@ The model output is saved in the result folder together with the standard ocean 
 Code structure
 ==============
 
-Icepack is a single column model and therefore its subroutines act on one grid cell. To implement this model in a host General Circulation Model (GCM), in our case FESOM2, additional code is needed to define an interface between the two to drive the Icepack subroutines. This interface is contained in the ``icedrv_*.F90`` files, which are part of the FESOM2 repository, and will be briefly described in the following section.
+Icepack is a single column model and therefore its subroutines act on one grid cell. The Icepack code is downloaded from a separate repository (see instructions on how to compile the model) and is located in ``src/icepack_drivers/Icepack/columnphysics/``. To integrate this code in a host General Circulation Model (GCM), in our case FESOM2, additional instructions are needed to define an interface between the two systems and to drive the Icepack subroutines. This interface is contained in the ``src/icepack_drivers/icedrv_*.F90`` files, which are part of the FESOM2 repository, and will be briefly described in the following section.
 
 Icepack drivers
 """""""""""""""
 
 - ``icedrv_main.F90`` This file contains the main module of the Icepack drivers. All the variables are declared here, together with the interface of the subroutines contained in various submodules. If new variables or subroutines need to be added to the code, this is a good place to start. Try to maintain all the variables private to increase the modularity of the code, and use the transfer interface to exchange variables with FESOM2. 
+
 - ``icedrv_set.F90`` This file contains few subroutines that initialize the model parameters by reading the Icepack namelists or alternatively by extracting default values from the Icepack package. Furthermore, ``icepack.diagnostics`` is written here, and the sea ice state is initialized in case of a cold start of the model.  
+
 - ``icedrv_allocate.F90`` This file contains subroutines that allocate the Icepack variables declared in ``icedrv_main.F90``. 
+
 - ``icedrv_init.F90`` This file contains subroutines that initialize the Icepack variables declared in ``icedrv_main.F90`` and allocated in ``icedrv_allocate.F90``.
+
 - ``icedrv_step.F90`` This file contains few subroutines that describe the calling sequence of the sea ice model when Icepack is used in FESOM2.  
+
 - ``icedrv_advection.F90`` This file contains few subroutines that advect the Icepack tracers. If new parameterization or options are explored, you should check if the relative tracers are advected properly.  
+
 - ``icedrv_transfer.F90`` This file contains subroutines that describe the procedure to pass information between FESOM2 and Icepack.
+
 - ``icedrv_io.F90`` This file contains subroutines that describe the I/O streams for the Icepack variables, including restart procedures. If new parameterization or options are explored, you should check if the relative tracers are restarted properly. 
+
 - ``icedrv_kinds.F90`` This file declares some standard types for variable declarations. 
+
 - ``icedrv_system.F90`` This file contains subroutines that handle model errors inside Icepack, possibly stopping the model run, and that output warning messages when appropriate.
+
 - ``icedrv_constants.F90`` This file defines some constants that are used in the Icepack drivers.
 
 Communication between Icepack and FESOM2
