@@ -8,6 +8,11 @@ This section describes the implementation of the Icepack sie ice column physics 
 .. attention::
    The Icepack implementation in FESOM2 is still in a testing phase and we cannot guarantee a bugfree code nor good scientific results.
 
+.. note::
+   To get more information regardng the implementation of Icepack in FESOM2, to report bugs, or to get advice regarding the model setup do not hesitate to open an issue on the FESOM2 GitHub repository or to contact Lorenzo Zampieri at lorenzo(dot)zampieri(at)awi(dot)de. 
+   
+   You are invited to update and develop further this documentation by pushing your changes to the `FESOM2 Documentation repository <https://github.com/FESOM/fesom2_doc>`_ on GitHub.
+
 General information
 ===================
 
