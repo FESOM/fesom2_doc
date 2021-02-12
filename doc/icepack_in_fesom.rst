@@ -95,17 +95,17 @@ Icepack is a single column model and therefore its subroutines act on one grid c
 Icepack drivers
 """""""""""""""
 
-- ``icedrv_main.F90``
-- ``icedrv_set.F90``
-- ``icedrv_allocate.F90``
-- ``icedrv_init.F90``
-- ``icedrv_step.F90``
-- ``icedrv_advection.F90``
-- ``icedrv_transfer.F90``
-- ``icedrv_io.F90``
-- ``icedrv_kinds.F90``
-- ``icedrv_system.F90``
-- ``icedrv_constants.F90``
+- ``icedrv_main.F90`` This file contains the main module of the Icepack drivers. All the variables are declared here, together with the interface of the subroutines contained in various submodules. If new variables or subroutines need to be added to the code, this is a good place to start. Try to maintain all the variables private to increase the modularity of the code, and use the transfer interface to exchange variables with FESOM2. 
+- ``icedrv_set.F90`` This file contains few subroutines that initialize the model parameters by reading the Icepack namelists or alternatively by extracting default values from the Icepack package. Furthermore, ``icepack.diagnostics`` is written here, and the sea ice state is initialized in case of a cold start of the model.  
+- ``icedrv_allocate.F90`` This file contains subroutines that allocate the Icepack variables declared in ``icedrv_main.F90``. 
+- ``icedrv_init.F90`` This file contains subroutines that initialize the Icepack variables declared in ``icedrv_main.F90`` and allocated in ``icedrv_allocate.F90``.
+- ``icedrv_step.F90`` This file contains few subroutines that describe the calling sequence of the sea ice model when Icepack is used in FESOM2.  
+- ``icedrv_advection.F90`` This file contains few subroutines that advect the Icepack tracers. If new parameterization or options are explored, you should check if the relative tracers are advected properly.  
+- ``icedrv_transfer.F90`` This file contains subroutines that describe the procedure to pass information between FESOM2 and Icepack.
+- ``icedrv_io.F90`` This file contains subroutines that describe the I/O streams for the Icepack variables, including restart procedures. If new parameterization or options are explored, you should check if the relative tracers are restarted properly. 
+- ``icedrv_kinds.F90`` This file declares some standard types for variable declarations. 
+- ``icedrv_system.F90`` This file contains subroutines that handle model errors inside Icepack, possibly stopping the model run, and that output warning messages when appropriate.
+- ``icedrv_constants.F90`` This file defines some constants that are used in the Icepack drivers.
 
 Communication between Icepack and FESOM2
 """"""""""""""""""""""""""""""""""""""""
