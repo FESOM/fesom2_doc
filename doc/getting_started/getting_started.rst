@@ -69,7 +69,7 @@ The fesom2 repository do not contain any data or meshes, so you have to download
 
 ::
 
-    curl https://swift.dkrz.de/v1/dkrz_035d8f6ff058403bb42f8302e6badfbc/FESOM2.0_tutorial/FESOM2_minimum_input.tar > FESOM2_minimum_input.tar
+    curl https://swift.dkrz.de/v1/dkrz_035d8f6ff058403bb42f8302e6badfbc/FESOM2.0_tutorial/FESOM2_one_year_input.tar > FESOM2_one_year_input.tar
 
 and doing dearchivation:
 

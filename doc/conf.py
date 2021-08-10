@@ -31,6 +31,7 @@ release = '0.1'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = ['sphinx.ext.mathjax', 'sphinxcontrib.bibtex']
+bibtex_bibfiles = ['mybib_fesom2.bib']
 
 numfig = True
 # Add any paths that contain templates here, relative to this directory.
@@ -112,4 +113,4 @@ man_pages = [
 
 
 def setup(app):
-    app.add_stylesheet('css/custom.css')
+    app.add_css_file('css/custom.css')
