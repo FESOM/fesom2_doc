@@ -31,6 +31,8 @@ after that one has to adjust the run script for the target sustem and run it:
 Detailed steps of compiling and runing the code
 ===============================================
 
+The following section assumes you are located on one of the supported HPC systems. To install FESOM2 on your local machine we recoment to use `Docker based installation`_ and read about `Necessary Ubuntu packages`_ if you decide not to use Docker. 
+
 First thing is to checkout FESOM2 code from the repository. The code is developed in open repository on GitHub_. 
 
 .. _GitHub: https://github.com/FESOM/fesom2/
@@ -62,27 +64,31 @@ If you would like to select platform manually (which is nessesary in the case of
     bash -l ./configure.sh ubuntu
 
 
-Download data and mesh files
-----------------------------
+Data and mesh files
+-------------------
 
-The fesom2 repository do not contain any data or meshes, so you have to download them separatelly. The easiest way to start is to download example set from `DKRZ cloud`_ for example by executing:
+The FESOM2 repository contains only very small example meshes and data (in the ``test`` directory, see the note below). However, if you want to run realistic simulations, you ether have to have them on your system, or download an archive with sample data. THere is a chance that your system already have some of the necesseary files, you can check it in the ``setups/paths.yml`` file. If not, the easiest way to start is to download example set from `DKRZ cloud`_  (12 Gb) by executing:
 
 ::
 
-    curl https://swift.dkrz.de/v1/dkrz_035d8f6ff058403bb42f8302e6badfbc/FESOM2.0_tutorial/FESOM2_minimum_input.tar > FESOM2_minimum_input.tar
+    curl https://swift.dkrz.de/v1/dkrz_035d8f6ff058403bb42f8302e6badfbc/FESOM2.0_tutorial/FESOM2_one_year_input.tar > FESOM2_one_year_input.tar
 
-and doing dearchivation:
+and untar:
 
 ::
 
     tar -xvf FESOM2_minimum_input.tar
 
-You will have a folder named ``FESOM2_minimum_input`` that contains all the data you need to do initial run of the model. The `mesh` directory contains two meshes: ``pi`` and ``CORE``. The ``pi`` mesh is very small global FESOM2 mesh, that can run relativelly fast even on a laptop. The ``CORE`` mesh is our 1 degree equivalent mesh and is used in many tuning and testing studies. Mesh folders already include several prepared partitionings (``dist_`` folders), so you don't have to worry about partitioning during your first steps with FESOM.
+You will have a folder named ``FESOM2_one_year_input`` that contains all the data you need to do initial run of the model. The `mesh` directory contains two meshes: ``pi`` and ``core2``. The ``pi`` mesh is very small global FESOM2 mesh, that can run relativelly fast even on a laptop. The ``CORE`` mesh is our 1 degree equivalent mesh and is used in many tuning and testing studies. Mesh folders already include several prepared partitionings (``dist_`` folders), so you don't have to worry about partitioning during your first steps with FESOM.
 
-The ``input`` folder contains files with initial conditions (``phc3.0``) and atmospheric forcing (``CORE2``) for one year (1948).
+The ``input`` folder contains files with initial conditions (``phc3.0``) and atmospheric forcing (``JRA55``) for one year (1958).
+
+.. note:: You can find more standard FESOM2 meshes in https://gitlab.awi.de/fesom . Download instructions are available in each mesh repository.
 
 
 .. _DKRZ cloud: https://swift.dkrz.de/v1/dkrz_035d8f6ff058403bb42f8302e6badfbc/FESOM2.0_tutorial/FESOM2_minimum_input.tar
+
+.. note::  The FESOM2 distribution contains minimal set of data to run the model in the ``test`` directory, namelly ``pi`` and ``soufflet`` (channel) meshes, WOA13 initial conditions and CORE2 forcing data for one day. Those are mainly used for testing, and require a bit more involved modification of namelists. For more details see instructions on `Docker based installation`_. 
 
 
 Preparing the run
@@ -98,8 +104,8 @@ you might make a link to some other directory located on the part of the system 
 
 ::
 
-    0 1 1948
-    0 1 1948
+    0 1 1958
+    0 1 1958
 
 This is initial date of the model run, or the time of the `cold start` of your model. More detailed explanation of the clock file will be given in the `The clock file`_ section.
 
@@ -114,8 +120,7 @@ There are several configuration files, but we are only interested in the ``namel
 - ``run_length`` length of the model run in run_length_unit (see below).
 - ``run_length_unit`` units of the run_length. Can be ``y`` (year), ``m`` (month), ``d`` (days), ``s`` (model steps).
 - ``MeshPath`` - path to the mesh you would like to use (e.g. ``/youdir/FESOM2_minimum_input/mesh/pi/``, slash at the end is important!)
-- ``ClimateDataPath`` - path to the folder with the file with model temperature and salinity initial conditions (e.g. ``/youdir/FESOM2_minimum_input/input/phc3.0/``). The name of the file is defined in `namelist.oce`, but during first runs you probably don't want to change it.
-- ``ForcingDataPath`` - path to the forcing data (e.g. ``/youdir/FESOM2_minimum_input/input/CORE2/``)
+- ``ClimateDataPath`` - path to the folder with the file with model temperature and salinity initial conditions (e.g. ``/youdir/FESOM2_one_year_input/input/phc3.0/``). The name of the file with initial conditions is defined in `namelist.oce`, but during first runs you probably don't want to change it.
 
 More detailed explination of options in the ``namelist.config`` is in the section :ref:`chap_general_configuration`.
 
@@ -153,45 +158,36 @@ The clock file is located in your output directory (specified in ``ResultPath`` 
 
 ::
 
-    0 1 1948
-    0 1 1948
+    0 1 1958
+    0 1 1958
 
-In this example, ``1948`` is the first available year of the atmospheric ``CORE2`` forcing. The two identical lines tell the model that this is the start of the experiment and that there is no restart file to be read. Also make sure that the ``yearnew`` option of the ``namelist.config`` is set to the year you would like the cold start to begin (1948 in this case).
+In this example, ``1958`` is the first available year of the atmospheric ``JRA55`` forcing. The two identical lines tell the model that this is the start of the experiment and that there is no restart file to be read. Also make sure that the ``yearnew`` option of the ``namelist.config`` is set to the year you would like the cold start to begin (1958 in this case).
 
 Let's assume that we run the model with a timestep of 30 minutes (= 1800 seconds) for a full year (1948). After the run is successfully finished, the clock file will then automatically be updated and look like this:
 
 ::
 
-    84600.0 365 1948
-    0.0     1   1949
+    84600.0 365 1958
+    0.0     1   1958
 
-where the first row is the second of the day of the last time step of the model, and the second row gives the time when the simulation is to be continued. The first row indicates that the model ran for 365 days (in 1948) and 84600 seconds, which is ``1 day - 1`` FESOM timestep in seconds. In the next run, FESOM2 will look for restart files for the year 1948 and continue the simulation at the 1st of January in 1949.
+where the first row is the second of the day of the last time step of the model, and the second row gives the time when the simulation is to be continued. The first row indicates that the model ran for 365 days (in 1958) and 84600 seconds, which is ``1 day - 1`` FESOM timestep in seconds. In the next run, FESOM2 will look for restart files for the year 1958 and continue the simulation at the 1st of January in 1959.
 
-Since 1948 is a leap year (366 days), this is an exceptional case and the fesom.clock file after two full years (1948--1949) would look like this:
-84600.0 364 1949
-
-::
-
-    84600.0 364 1949
-    0.0     1   1950
-
-Note that dependent on the forcing data set (using a different calendar), a year could only have 360 or 365 days.
 
 Tricking FESOM2 into accepting existing restart files
 -----------------------------------------------------
-The simple time management of FESOM2 allows to easily trick FESOM2 to accept existing restart files. Let's assume that you have performed a full ``CORE2`` cycle until the year 2009 and you want to perform a second cycle, restarting from the last year of the first cycle. This can be done by (copying and) renaming the last year into:
+The simple time management of FESOM2 allows to easily trick FESOM2 to accept existing restart files. Let's assume that you have performed a full ``JRA55`` cycle until the year 2019 and you want to perform a second cycle, restarting from the last year of the first cycle. This can be done by (copying and) renaming the last year into:
 
 ::
 
-    mv fesom.2009.ice.nc fesom.1947.ice.nc
-    mv fesom.2009.oce.nc fesom.1947.oce.nc
+    mv fesom.2019.ice.nc fesom.1957.ice.nc
+    mv fesom.2019.oce.nc fesom.1957.oce.nc
 
 by changing the clock file into:
 
 ::
 
-    84600.0 364 1947
-    0.0     1   1948
+    84600.0 365 1957
+    0.0     1   1958
 
 
 .. _partitioning:
@@ -265,7 +261,7 @@ If you trying to partition large mesh, then on ``ollie`` for example the submiss
 Model spinup / Cold start at higher resolutions
 -----------------------------------------------
 
-Cold starting the model at high mesh resolutions with standard values for timestep and viscosity will lead to instabilities that cause the model to crash. If no restart files are available and a spinup has to be performed, the following changes should be made for the first month long simulation and then taken back gradually over the next 6-8 months:
+Cold start of the model at high mesh resolutions with standard values for timestep and viscosity will lead to instabilities that cause the model to crash. If no restart files are available and a spinup has to be performed, the following changes should be made for the first month long simulation and then adjusted gradually over the next 6-8 months:
 
 - First thing to try, that usually helps, is to set in the ``namelist.oce``::
 
@@ -280,17 +276,17 @@ Cold starting the model at high mesh resolutions with standard values for timest
   or even lower (e.g. value 1440 will lead to 1 minute timestep).
 
 .. note::
-   Make sure that for the high resolution runs (with mesh resolution over considerable portions of the domain finer than 25-10 km) you don't use the default "Easy Backscatter" (``visc_option=5``). This is true not only for the spinup, but for the whole duration of the run. The "Easy Backscatter" option works very good on low resolution meshes, but for high resolution meshes (eddy resolving) it makes more harm than good.
+   Make sure that for the high resolution runs (with mesh resolution over considerable portions of the domain finer than 25-10 km) you don't use the combination of default "Easy Backscatter" vescosity (``visc_option=5``) and ``easy_bs_return= 1.5``. This is true not only for the spinup, but for the whole duration of the run. The "Easy Backscatter" option works very good on low resolution meshes, but for high resolution meshes (eddy resolving) it makes more harm than good. If you would like to use ``visc_option=5`` for high resolution runs, put ``easy_bs_return= 1.0``.
 
 
-- In ``namelist.oce`` make sure that ``visc_option`` is set to 2 (see the note above) and increase viscosity to something like:
+- In ``namelist.oce`` make sure that ``visc_option`` is set to 7 or 5 (see also the note above about option 5) and increase ``gamma1`` to something like:
 
   ::
 
-      Div_c=5
-      Leith_c=.5
+      gamma1=0.8
 
-After running for about a month change one of the parameters to more standard values. If you change the values of run lengh and restart output frequency (which you probably want to do during the spinup, to run for short periods), don't forget to change them back in the ``namelist.config``:
+
+or even higher. After running for about a month try to reduce it. If you change the values of run lengh and restart output frequency (which you probably want to do during the spinup, to run for short periods), don't forget to change them back in the ``namelist.config``:
 
 ::
 
@@ -360,6 +356,55 @@ Model blows up
 There could by many reasons for this, but the first thing to try is to reduce time step or/and increase model viscosity for short period of time. Have a look at `Model spinup / Cold start at higher resolutions`_ for instructions.
 
 
+Docker based installation
+=========================
 
+The best way to run the model locally is to use Docker container. You obviously have to have Docker installed for your system. The Docker image we are going to use have all necessary libraries installed plus have the ``mkrun`` python script (`Docker file`_), that helps to create FESOM2 configurations. As a result of the steps below, you will run ``pi`` mesh for one day using data files that comes with the model.
+
+.. _Docker file: https://github.com/FESOM/FESOM2_Docker/tree/master/fesom2_test
+
+- Get the image::
+    
+    docker pull koldunovn/fesom2_test:fesom2.1
+
+- Go to the folder with your version of fesom2 folder (NOT inside fesom2 folder, one up, the one you run ``git clone https://github.com/FESOM/fesom2.git`` in).
+- Run::
+
+    docker run -it -v "$(pwd)"/fesom2:/fesom/fesom2 koldunovn/fesom2_test:fesom2.1 /bin/bash
+
+- This should get you inside the container. You now can edit the files in your fesom2 folder (on host system), but run compule and run the model inside the container.
+- When inside the container, to compile do:
+  
+  ::
+
+    cd fesom2
+    bash -l configure.sh ubuntu
+
+- To prepare the run (this will do the test with pi mesh)::
+
+    mkrun pi test_pi -m docker
+
+- To run the model:
+
+  ::
+    
+    cd work_pi/
+    ./job_docker_new
+
+As a next step you can modify the setup in ``work_pi`` to try different parameters. You can also follow the steps described in `Detailed steps of compiling and runing the code`_. To make your life a bit easier place ``FESOM2_one_year_input`` in the ``fesom2`` folder, so that the data are available inside the container. You also can generate setup that would use ``JRA55`` forcing, and adjust it - this will save you some time on editing ``namelist.forcing``, since original setup in ``work_pi`` folder use old ``CORE2`` forcing. 
+
+  ::
+
+    mkrun pi_jra55 test_pi -m docker -f JRA55
+
+Necessary Ubuntu packages
+=========================
+
+Here is the list of packages you need to install on ``Ubuntu`` to compile and run FESOM2. Should work (with adjustments for package managers and names) for other linux distributions.
+
+  ::
+
+    apt-get -y install make gfortran gcc g++ libblas-dev libopenmpi-dev
+    apt-get -y install cmake vim git libnetcdf-dev libnetcdff-dev libpmi2-pmix
 
 
