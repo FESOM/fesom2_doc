@@ -18,11 +18,11 @@
 # -- Project information -----------------------------------------------------
 
 project = 'fesom2'
-copyright = '2019, FESOM2 team'
+copyright = '2021, FESOM2 team'
 author = u'Sergey Danilov, Dmitry Sidorenko, Nikolay Koldunov, Patrick Scholz, Qiang Wang, Thomas Rackow, Helge Goessling and Lorenzo Zampieri'
 
 # The full version, including alpha/beta/rc tags
-release = '0.1'
+release = '0.2'
 
 
 # -- General configuration ---------------------------------------------------
