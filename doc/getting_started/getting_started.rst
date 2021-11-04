@@ -188,6 +188,16 @@ by changing the clock file into:
 
     84600.0 365 1957
     0.0     1   1958
+    
+In case the second cycle starts again at the very first year (e.g. 1958 in ``JRA55``) of the forcing, namelist.config needs to be modified, otherwise the model will always perform a cold start in 1958 instead of restarting from the 1957 restart files:
+
+::
+
+    &clockinit
+    timenew=0.0
+    daynew=1
+    yearnew=1957
+
 
 
 .. _partitioning:
