@@ -77,7 +77,7 @@ and untar:
 
 ::
 
-    tar -xvf FESOM2_minimum_input.tar
+    tar -xvf FESOM2_one_year_input.tar
 
 You will have a folder named ``FESOM2_one_year_input`` that contains all the data you need to do initial run of the model. The `mesh` directory contains two meshes: ``pi`` and ``core2``. The ``pi`` mesh is very small global FESOM2 mesh, that can run relativelly fast even on a laptop. The ``CORE`` mesh is our 1 degree equivalent mesh and is used in many tuning and testing studies. Mesh folders already include several prepared partitionings (``dist_`` folders), so you don't have to worry about partitioning during your first steps with FESOM.
 
@@ -119,7 +119,7 @@ There are several configuration files, but we are only interested in the ``namel
 
 - ``run_length`` length of the model run in run_length_unit (see below).
 - ``run_length_unit`` units of the run_length. Can be ``y`` (year), ``m`` (month), ``d`` (days), ``s`` (model steps).
-- ``MeshPath`` - path to the mesh you would like to use (e.g. ``/youdir/FESOM2_minimum_input/mesh/pi/``, slash at the end is important!)
+- ``MeshPath`` - path to the mesh you would like to use (e.g. ``/youdir/FESOM2_one_year_input/mesh/pi/``, slash at the end is important!)
 - ``ClimateDataPath`` - path to the folder with the file with model temperature and salinity initial conditions (e.g. ``/youdir/FESOM2_one_year_input/input/phc3.0/``). The name of the file with initial conditions is defined in `namelist.oce`, but during first runs you probably don't want to change it.
 
 More detailed explination of options in the ``namelist.config`` is in the section :ref:`chap_general_configuration`.
@@ -133,6 +133,9 @@ Change to the ``work`` directory. You should find several batch scripts that are
    Model executable, namelists and job script have to be located in the same directory (usually ``work``).
 
 If you are working on AWI's ``ollie`` supercomputer, you have to use ``job_ollie``, in other case use the job script for your specific platform, or try to modify one of the existing ones.
+
+.. note::
+   One thing you might need to adjust in the job files is the number of cores, you would like to run the model on. For example, for SLURM it will be adjusting ``#SBATCH --ntasks=288`` value, and for simple ``mpirun`` command, that we have for ``job_ubuntu`` it will be argument for the ``-n`` option. It is necessary, that your mesh has the corresponding partitioning (``dist_xx`` folder, where ``xx`` is the number of cores).
 
 On ``ollie`` the submission of your job is done by executing the following command:
 
