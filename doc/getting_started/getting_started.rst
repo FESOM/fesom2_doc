@@ -100,7 +100,7 @@ You have to do several basic things in order to prepare the run. First, create a
 
     mkdir results
 
-you might make a link to some other directory located on the part of the system where you have a lot of storage. In the results directory, you have to create ``runid.clock`` file, where ``runid`` is usually ``fesom``, so the file is most often named ``fesom.clock``. Inside the file you have to put two identical lines:
+you might make a link to some other directory located on the part of the system where you have a lot of storage. In the results directory, you have to create ``fesom.clock`` file (NOTE, if you change ``runid`` in ``namelist.config`` to something like ``runid=mygreatrun``, the file will be named ``mygreatrun.clock``). Inside the file you have to put two identical lines:
 
 ::
 
