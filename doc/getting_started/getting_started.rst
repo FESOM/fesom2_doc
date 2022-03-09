@@ -86,7 +86,7 @@ The ``input`` folder contains files with initial conditions (``phc3.0``) and atm
 .. note:: You can find more standard FESOM2 meshes in https://gitlab.awi.de/fesom . Download instructions are available in each mesh repository.
 
 
-.. _DKRZ cloud: https://swift.dkrz.de/v1/dkrz_035d8f6ff058403bb42f8302e6badfbc/FESOM2.0_tutorial/FESOM2_minimum_input.tar
+.. _DKRZ cloud: https://swiftbrowser.dkrz.de/download/FESOM2.0_tutorial/FESOM2_one_year_input.tar
 
 .. note::  The FESOM2 distribution contains minimal set of data to run the model in the ``test`` directory, namelly ``pi`` and ``soufflet`` (channel) meshes, WOA13 initial conditions and CORE2 forcing data for one day. Those are mainly used for testing, and require a bit more involved modification of namelists. For more details see instructions on `Docker based installation`_. 
 
