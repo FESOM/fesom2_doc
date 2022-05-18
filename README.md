@@ -1,8 +1,6 @@
-Documentation for FESOM2
-************************
+!!! DEPRICATED !!! 
 
-Here lives FESOM2 documentation
-
-Rendered version: https://fesom2.readthedocs.io/en/latest/
+Documentation for FESOM2 is now part of the FESOM2 repository.
 
 
+https://github.com/FESOM/fesom2
